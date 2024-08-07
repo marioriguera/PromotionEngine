@@ -4,8 +4,17 @@ using PromotionEngine.Entities;
 
 namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 
+/// <summary>
+/// Handles the request for fetching promotions based on the provided country and language codes.
+/// </summary>
 public class Handler : IHandler<Request, Response>
 {
+    /// <summary>
+    /// Handles the asynchronous request to fetch promotions.
+    /// </summary>
+    /// <param name="request">The request containing country and language codes.</param>
+    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+    /// <returns>The response containing the list of promotions or an exception if one occurred.</returns>
     public async Task<Response> HandleAsync(Request request, CancellationToken cancellationToken = default)
     {
         var response = new Response();
@@ -14,37 +23,24 @@ public class Handler : IHandler<Request, Response>
         {
             var databaseConnection = new DatabaseConnection("database://cloudserver.databases.azure:8074/promotion-engine@chj458$@djks");
             await databaseConnection.ConnectAsync(cancellationToken);
-            
+
             var repository = new Repository(databaseConnection);
 
-            IEnumerable<Promotion> promotions = await repository.GetAll(request.CountryCode, cancellationToken).ToListAsync(cancellationToken);
+            var promotions = await repository.GetAll(request.CountryCode, cancellationToken).ToListAsync(cancellationToken);
 
-            var promotionModels = new List<PromotionModel>();
-            foreach (var promotion in promotions)
+            var promotionModels = promotions.Select(promotion =>
             {
-                var promotionModel = new PromotionModel {
-                   PromotionId = promotion.Id,
-                   EndValidityDate = promotion.EndValidityDate
+                var promotionModel = new PromotionModel
+                {
+                    PromotionId = promotion.Id,
+                    EndValidityDate = promotion.EndValidityDate,
+                    Discounts = promotion.Discounts?.ToList() ?? new List<Discount>(),
+                    Images = promotion.Images.ToList()
                 };
-                
-                if(promotion.Discounts != null && promotion.Discounts.Any())
-                {
-                    promotionModel.Discounts = new List<Discount>();
-                    foreach (var discount in promotion.Discounts)
-                    {
-                        promotionModel.Discounts.Add(discount);
-                    }
-                }
 
-                foreach (var image in promotion.Images)
+                if (promotion.DisplayContent != null && promotion.DisplayContent.TryGetValue(request.LanguageCode, out var displayContent))
                 {
-                    promotionModel.Images.Add(image);
-                }
-                
-                if(promotion.DisplayContent != null && promotion.DisplayContent.Any())
-                {
-                    var displayContent = promotion.DisplayContent[request.LanguageCode];
-                    promotionModel.Texts = new PromotionTextsModel()
+                    promotionModel.Texts = new PromotionTextsModel
                     {
                         Description = displayContent.Description,
                         DiscountTitle = displayContent.DiscountTitle,
@@ -53,16 +49,14 @@ public class Handler : IHandler<Request, Response>
                     };
                 }
 
-                promotionModels.Add(promotionModel);
-            }
+                return promotionModel;
+            }).ToList();
 
-            return response
-                .SetPromotions(promotionModels);
+            return response.SetPromotions(promotionModels);
         }
         catch (Exception ex)
         {
-            return response
-                .SetException(ex);
+            return response.SetException(ex);
         }
     }
 }

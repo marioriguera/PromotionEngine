@@ -1,6 +1,6 @@
-using PromotionEngine.Application.DependencyInjection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using PromotionEngine.Application.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
