@@ -1,13 +1,14 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using PromotionEngine.Application.DependencyInjection;
+using PromotionEngine.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder
     .Services
+    .AddApi()
     .AddApplication(builder.Configuration)
-    .AddSwaggerGen()
     .AddEndpointsApiExplorer()
     .AddControllers()
     .AddJsonOptions(options =>
@@ -21,8 +22,18 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        var descriptions = app.DescribeApiVersions();
 
-    app.UseSwaggerUI();
+        // Build a swagger endpoint for each discovered API version
+        foreach (var description in descriptions)
+        {
+            var url = $"/swagger/{description.GroupName}/swagger.json";
+            var name = description.GroupName.ToUpperInvariant();
+            options.SwaggerEndpoint(url, name);
+        }
+    });
 }
 
 app.UseAuthorization();

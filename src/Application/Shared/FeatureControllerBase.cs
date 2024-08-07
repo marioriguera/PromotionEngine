@@ -6,6 +6,7 @@ namespace PromotionEngine.Application.Shared;
 /// <summary>
 /// Base class for API controllers providing common functionalities for error handling and logging.
 /// </summary>
+[ApiController]
 public abstract class FeatureControllerBase : ControllerBase
 {
     /// <summary>

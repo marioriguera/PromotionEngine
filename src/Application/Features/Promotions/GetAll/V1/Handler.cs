@@ -1,6 +1,5 @@
 ﻿using PromotionEngine.Application.Features.Promotions.GetAll.V1.Repositories;
 using PromotionEngine.Application.Shared;
-using PromotionEngine.Entities;
 
 namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 
@@ -21,9 +20,11 @@ public class Handler : IHandler<Request, Response>
 
         try
         {
+            // ToDo: esto es una dependencia, hay que resolverla con inyeccion.
             var databaseConnection = new DatabaseConnection("database://cloudserver.databases.azure:8074/promotion-engine@chj458$@djks");
             await databaseConnection.ConnectAsync(cancellationToken);
 
+            // ToDo: esto es una dependencia, hay que resolverla con inyeccion.
             var repository = new Repository(databaseConnection);
 
             var promotions = await repository.GetAll(request.CountryCode, cancellationToken).ToListAsync(cancellationToken);
@@ -34,7 +35,7 @@ public class Handler : IHandler<Request, Response>
                 {
                     PromotionId = promotion.Id,
                     EndValidityDate = promotion.EndValidityDate,
-                    Discounts = promotion.Discounts?.ToList() ?? new List<Discount>(),
+                    Discounts = promotion.Discounts?.ToList() ?? [],
                     Images = promotion.Images.ToList()
                 };
 
