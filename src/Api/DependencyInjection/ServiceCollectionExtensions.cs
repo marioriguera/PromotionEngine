@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using Microsoft.Extensions.Options;
+using PromotionEngine.Middlewares;
 using PromotionEngine.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -20,6 +21,9 @@ public static class ServiceCollectionExtensions
     /// <returns>The updated service collection with API services configured.</returns>
     public static IServiceCollection AddApi(this IServiceCollection services)
     {
+        // Register global exception handling middleware.
+        services.AddTransient<GlobalExceptionHandlingMiddleware>();
+
         // Register the Swagger configuration options.
         services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
 

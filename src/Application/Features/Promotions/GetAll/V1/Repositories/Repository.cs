@@ -27,6 +27,9 @@ internal sealed class Repository
     /// <returns>An asynchronous enumerable of promotions.</returns>
     public IAsyncEnumerable<Promotion> GetAll(string countryCode, CancellationToken cancellationToken)
     {
-        return _databaseConnectionInfo.QueryAsync(_ => _.CountryCode == countryCode, cancellationToken);
+        using (_databaseConnectionInfo)
+        {
+            return _databaseConnectionInfo.QueryAsync(_ => _.CountryCode == countryCode, cancellationToken);
+        }
     }
 }

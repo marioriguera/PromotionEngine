@@ -27,41 +27,37 @@ internal class Handler : IHandler<Request, Response>
     /// <returns>The response containing the list of promotions or an exception if one occurred.</returns>
     public async Task<Response> HandleAsync(Request request, CancellationToken cancellationToken = default)
     {
-        var response = new Response();
+        /*
+         * If it is not necessary to handle exceptions unless it is a system
+         * requirement we can leave the responsibility of handling exceptions to a Middleware.
+         * I have removed the try/catch from this function.
+         */
+        var promotions = await _repository.GetAll(request.CountryCode, cancellationToken).ToListAsync(cancellationToken);
 
-        try
+        var promotionModels = promotions.Select(promotion =>
         {
-            var promotions = await _repository.GetAll(request.CountryCode, cancellationToken).ToListAsync(cancellationToken);
-
-            var promotionModels = promotions.Select(promotion =>
+            var promotionModel = new PromotionModel
             {
-                var promotionModel = new PromotionModel
+                PromotionId = promotion.Id,
+                EndValidityDate = promotion.EndValidityDate,
+                Discounts = promotion.Discounts?.ToList() ?? [],
+                Images = promotion.Images.ToList()
+            };
+
+            if (promotion.DisplayContent != null && promotion.DisplayContent.TryGetValue(request.LanguageCode, out var displayContent))
+            {
+                promotionModel.Texts = new PromotionTextsModel
                 {
-                    PromotionId = promotion.Id,
-                    EndValidityDate = promotion.EndValidityDate,
-                    Discounts = promotion.Discounts?.ToList() ?? [],
-                    Images = promotion.Images.ToList()
+                    Description = displayContent.Description,
+                    DiscountTitle = displayContent.DiscountTitle,
+                    Title = displayContent.Title,
+                    DiscountDescription = displayContent.DiscountDescription
                 };
+            }
 
-                if (promotion.DisplayContent != null && promotion.DisplayContent.TryGetValue(request.LanguageCode, out var displayContent))
-                {
-                    promotionModel.Texts = new PromotionTextsModel
-                    {
-                        Description = displayContent.Description,
-                        DiscountTitle = displayContent.DiscountTitle,
-                        Title = displayContent.Title,
-                        DiscountDescription = displayContent.DiscountDescription
-                    };
-                }
+            return promotionModel;
+        }).ToList();
 
-                return promotionModel;
-            }).ToList();
-
-            return response.SetPromotions(promotionModels);
-        }
-        catch (Exception ex)
-        {
-            return response.SetException(ex);
-        }
+        return new Response().SetPromotions(promotionModels);
     }
 }

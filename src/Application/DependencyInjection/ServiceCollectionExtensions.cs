@@ -20,7 +20,14 @@ public static class ServiceCollectionExtensions
         // Register the handler for processing promotion requests
         services.AddTransient<IHandler<Features.Promotions.GetAll.V1.Request, Features.Promotions.GetAll.V1.Response>, Features.Promotions.GetAll.V1.Handler>();
 
-        services.AddSingleton<DatabaseConnection>(provider => new DatabaseConnection(configuration.GetConnectionString("Database") ?? string.Empty));
+        services.AddSingleton<DatabaseConnection>(
+                provider =>
+                {
+                    var logger = provider.GetRequiredService<ILogger<DatabaseConnection>>();
+                    var connectionString = configuration.GetConnectionString("Database") ?? string.Empty;
+
+                    return new DatabaseConnection(connectionString, logger);
+                });
         services.AddScoped<Repository>();
 
         return services;

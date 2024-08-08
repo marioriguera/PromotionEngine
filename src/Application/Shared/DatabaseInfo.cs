@@ -8,9 +8,11 @@ namespace PromotionEngine.Application.Shared;
 /// </summary>
 /// Represents a connection to the database for querying promotions.
 /// <param name="connectionString">The connection string for the database.</param>
-internal sealed class DatabaseConnection(string connectionString)
+internal sealed class DatabaseConnection
     : IDisposable
 {
+    private readonly ILogger<DatabaseConnection> _logger;
+    private readonly string _connectionString;
     private readonly List<Promotion> _promotions =
     [
             new Promotion()
@@ -196,6 +198,17 @@ internal sealed class DatabaseConnection(string connectionString)
         ];
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="DatabaseConnection"/> class.
+    /// </summary>
+    /// <param name="connectionString"></param>
+    /// <param name="logger"></param>
+    public DatabaseConnection(string connectionString, ILogger<DatabaseConnection> logger)
+    {
+        _logger = logger;
+        _connectionString = connectionString;
+    }
+
+    /// <summary>
     /// Queries the database asynchronously for promotions that match the specified predicate.
     /// </summary>
     /// <param name="predicate">The predicate to filter the promotions.</param>
@@ -223,7 +236,7 @@ internal sealed class DatabaseConnection(string connectionString)
     /// </summary>
     /// <param name="cancellationToken">A token to cancel the asynchronous operation.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public async Task<bool> ConnectAsync(CancellationToken cancellationToken) => await Task.FromResult(!string.IsNullOrEmpty(connectionString));
+    public async Task<bool> ConnectAsync(CancellationToken cancellationToken) => await Task.FromResult(!string.IsNullOrEmpty(_connectionString));
 
     /// <summary>
     /// Pings the database to check the connection.
@@ -236,6 +249,8 @@ internal sealed class DatabaseConnection(string connectionString)
     /// </summary>
     public void Dispose()
     {
-        // Dispose resources if needed (example purposes)
+        // Dispose resources if needed.
+        // I will not delete the data from the list of promotions in memory.
+        _logger.LogInformation($"Database connection resources will be dispose.");
     }
 }
