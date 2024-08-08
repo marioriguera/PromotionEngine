@@ -1,5 +1,5 @@
-﻿using Asp.Versioning;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PromotionEngine.Application.Features.Promotions.GetAll.V1.Repositories;
 using PromotionEngine.Application.Shared;
 
 namespace PromotionEngine.Application.DependencyInjection;
@@ -19,6 +19,9 @@ public static class ServiceCollectionExtensions
     {
         // Register the handler for processing promotion requests
         services.AddTransient<IHandler<Features.Promotions.GetAll.V1.Request, Features.Promotions.GetAll.V1.Response>, Features.Promotions.GetAll.V1.Handler>();
+
+        services.AddSingleton<DatabaseConnection>(provider => new DatabaseConnection(configuration.GetConnectionString("Database") ?? string.Empty));
+        services.AddScoped<Repository>();
 
         return services;
     }

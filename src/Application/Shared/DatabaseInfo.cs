@@ -8,7 +8,7 @@ namespace PromotionEngine.Application.Shared;
 /// </summary>
 /// Represents a connection to the database for querying promotions.
 /// <param name="connectionString">The connection string for the database.</param>
-public sealed class DatabaseConnection(string connectionString)
+internal sealed class DatabaseConnection(string connectionString)
     : IDisposable
 {
     private readonly List<Promotion> _promotions =
@@ -203,6 +203,11 @@ public sealed class DatabaseConnection(string connectionString)
     /// <returns>An async enumerable of promotions matching the predicate.</returns>
     public async IAsyncEnumerable<Promotion> QueryAsync(Func<Promotion, bool> predicate, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
+        if (!await ConnectAsync(cancellationToken))
+        {
+            throw new InvalidOperationException("Failed to connect to the database.");
+        }
+
         foreach (var promotion in _promotions.Where(predicate))
         {
             if (cancellationToken.IsCancellationRequested)
@@ -218,7 +223,7 @@ public sealed class DatabaseConnection(string connectionString)
     /// </summary>
     /// <param name="cancellationToken">A token to cancel the asynchronous operation.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public async Task ConnectAsync(CancellationToken cancellationToken) => await Task.FromResult(string.IsNullOrEmpty(connectionString));
+    public async Task<bool> ConnectAsync(CancellationToken cancellationToken) => await Task.FromResult(!string.IsNullOrEmpty(connectionString));
 
     /// <summary>
     /// Pings the database to check the connection.

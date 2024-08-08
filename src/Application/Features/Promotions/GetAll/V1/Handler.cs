@@ -6,8 +6,19 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 /// <summary>
 /// Handles the request for fetching promotions based on the provided country and language codes.
 /// </summary>
-public class Handler : IHandler<Request, Response>
+internal class Handler : IHandler<Request, Response>
 {
+    private readonly Repository _repository;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Handler"/> class.
+    /// </summary>
+    /// <param name="repository">The repository used to access promotion data.</param>
+    public Handler(Repository repository)
+    {
+        _repository = repository;
+    }
+
     /// <summary>
     /// Handles the asynchronous request to fetch promotions.
     /// </summary>
@@ -20,14 +31,7 @@ public class Handler : IHandler<Request, Response>
 
         try
         {
-            // ToDo: esto es una dependencia, hay que resolverla con inyeccion.
-            var databaseConnection = new DatabaseConnection("database://cloudserver.databases.azure:8074/promotion-engine@chj458$@djks");
-            await databaseConnection.ConnectAsync(cancellationToken);
-
-            // ToDo: esto es una dependencia, hay que resolverla con inyeccion.
-            var repository = new Repository(databaseConnection);
-
-            var promotions = await repository.GetAll(request.CountryCode, cancellationToken).ToListAsync(cancellationToken);
+            var promotions = await _repository.GetAll(request.CountryCode, cancellationToken).ToListAsync(cancellationToken);
 
             var promotionModels = promotions.Select(promotion =>
             {

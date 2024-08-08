@@ -33,6 +33,9 @@ if (app.Environment.IsDevelopment())
             var name = description.GroupName.ToUpperInvariant();
             options.SwaggerEndpoint(url, name);
         }
+
+        // Configure SwaggerUI to redirect to the Swagger page on root access
+        options.RoutePrefix = string.Empty; // Set the Swagger UI at the root
     });
 }
 

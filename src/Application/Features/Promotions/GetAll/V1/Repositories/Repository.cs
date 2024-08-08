@@ -6,7 +6,7 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1.Repositories
 /// <summary>
 /// Repository for accessing promotion data from the database.
 /// </summary>
-public sealed class Repository
+internal sealed class Repository
 {
     private readonly DatabaseConnection _databaseConnectionInfo;
 
