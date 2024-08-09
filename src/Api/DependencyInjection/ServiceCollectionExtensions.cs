@@ -1,8 +1,11 @@
-﻿using Asp.Versioning;
+﻿using System.Text.Json.Serialization;
+using System.Text.Json;
+using Asp.Versioning;
 using Microsoft.Extensions.Options;
 using PromotionEngine.Middlewares;
 using PromotionEngine.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Serilog;
 
 namespace PromotionEngine.DependencyInjection;
 
@@ -18,9 +21,26 @@ public static class ServiceCollectionExtensions
     /// Adds API-related services to the <see cref="IServiceCollection"/>.
     /// </summary>
     /// <param name="services">The service collection to which the API services are added.</param>
+    /// <param name="configuration">The configuration object used to retrieve application settings.</param>
     /// <returns>The updated service collection with API services configured.</returns>
-    public static IServiceCollection AddApi(this IServiceCollection services)
+    public static IServiceCollection AddApi(this IServiceCollection services, IConfiguration configuration)
     {
+        // Serilog configuration from appsettings.json .
+        Log.Logger = new LoggerConfiguration()
+           .ReadFrom.Configuration(configuration)
+           .Enrich.FromLogContext()
+           .CreateLogger();
+
+        // Some configurations from "Program".
+        services.AddEndpointsApiExplorer()
+                .AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                })
+                ;
+
         // Register global exception handling middleware.
         services.AddTransient<GlobalExceptionHandlingMiddleware>();
 
@@ -52,5 +72,40 @@ public static class ServiceCollectionExtensions
                 });
 
         return services;
+    }
+
+    /// <summary>
+    /// Configures the web application with the necessary middleware and endpoints.
+    /// </summary>
+    /// <param name="app">The web application to configure.</param>
+    /// <returns>The configured web application.</returns>
+    public static WebApplication ConfigureWebApplication(this WebApplication app)
+    {
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                var descriptions = app.DescribeApiVersions();
+
+                // Build a swagger endpoint for each discovered API version
+                foreach (var description in descriptions)
+                {
+                    var url = $"/swagger/{description.GroupName}/swagger.json";
+                    var name = description.GroupName.ToUpperInvariant();
+                    options.SwaggerEndpoint(url, name);
+                }
+
+                // Configure SwaggerUI to redirect to the Swagger page on root access
+                options.RoutePrefix = string.Empty; // Set the Swagger UI at the root
+            });
+        }
+
+        app.UseSerilogRequestLogging();
+        app.UseAuthorization();
+        app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
+        app.MapControllers();
+
+        return app;
     }
 }
