@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PromotionEngine.Application.Features.Promotions.GetAll.V1.Mappers;
 using PromotionEngine.Application.Features.Promotions.GetAll.V1.Repositories;
 using PromotionEngine.Application.Shared;
 
@@ -20,6 +21,7 @@ public static class ServiceCollectionExtensions
         // Register the handler for processing promotion requests
         services.AddTransient<IHandler<Features.Promotions.GetAll.V1.PromotionsV1Request, Features.Promotions.GetAll.V1.PromotionsV1Response>, Features.Promotions.GetAll.V1.PromotionsV1Handler>();
 
+        // Register database connection service.
         services.AddSingleton<DatabaseConnection>(
                 provider =>
                 {
@@ -29,6 +31,9 @@ public static class ServiceCollectionExtensions
                     return new DatabaseConnection(connectionString, logger);
                 });
         services.AddScoped<PromotionsRepository>();
+
+        // Register mappers.
+        services.AddAutoMapper(typeof(PromotionsMappingProfile));
 
         return services;
     }
