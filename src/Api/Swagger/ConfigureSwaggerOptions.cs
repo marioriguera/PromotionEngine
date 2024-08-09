@@ -1,7 +1,9 @@
 ﻿using Asp.Versioning.ApiExplorer;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using PromotionEngine.Application.Shared;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Reflection;
 
 namespace PromotionEngine.Swagger;
 
@@ -31,6 +33,13 @@ public sealed class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOption
         {
             options.SwaggerDoc(description.GroupName, CreateInfoForApiVersion(description));
         }
+
+        // Get the name of the documentation XML file for the current assembly.
+        var xmlFile = $"{ApplicationAssemblyReference.Assembly.GetName().Name}.xml";
+        var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+        // Including XML comments for Swagger.
+        options.IncludeXmlComments(xmlPath);
     }
 
     /// <summary>
