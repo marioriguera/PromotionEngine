@@ -10,7 +10,7 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 [Route("api/v{v:apiVersion}/promotions")]
 public class PromotionsController : FeatureControllerBase
 {
-    private readonly IHandler<Request, Response> _handler;
+    private readonly IHandler<PromotionsV1Request, PromotionsV1Response> _handler;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PromotionsController"/> class.
@@ -18,7 +18,7 @@ public class PromotionsController : FeatureControllerBase
     /// <param name="handler">The handler to process promotion requests.</param>
     /// <param name="logger">The logger instance for logging.</param>
     public PromotionsController(
-        IHandler<Request, Response> handler,
+        IHandler<PromotionsV1Request, PromotionsV1Response> handler,
         ILogger<PromotionsController> logger)
         : base(logger)
     {
@@ -36,7 +36,7 @@ public class PromotionsController : FeatureControllerBase
     [MapToApiVersion(1.0)]
     [HttpGet("{countryCode}/all")]
     [Produces("application/json")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Response))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PromotionsV1Response))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [SwaggerOperation(OperationId = "PromotionsList", Description = "Get Promotions")]
     public async Task<IActionResult> GetAllPromotionsV1Async(
@@ -44,14 +44,10 @@ public class PromotionsController : FeatureControllerBase
         string languageCode,
         CancellationToken cancellationToken)
     {
-        var request = new Request(countryCode, languageCode);
+        var response = await _handler.HandleAsync(new PromotionsV1Request(countryCode, languageCode), cancellationToken);
 
-        var response = await _handler.HandleAsync(request, cancellationToken);
-
-        return response switch
-        {
-            { ExceptionOccurred: true, Exception: var exception } => HandleException(exception!),
-            _ => Ok(response)
-        };
+        return response.Match(
+                promotions => Ok(promotions),
+                errors => Problem(errors));
     }
 }

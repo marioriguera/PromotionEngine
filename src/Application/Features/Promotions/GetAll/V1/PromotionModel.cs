@@ -5,7 +5,7 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 /// <summary>
 /// Represents the model for a promotion with additional details for presentation.
 /// </summary>
-public class PromotionModel
+public record PromotionModel
 {
     /// <summary>
     /// Gets or sets the unique identifier for the promotion.
@@ -36,7 +36,7 @@ public class PromotionModel
 /// <summary>
 /// Represents the textual content for a promotion.
 /// </summary>
-public class PromotionTextsModel
+public record PromotionTextsModel
 {
     /// <summary>
     /// Gets or sets the title of the promotion.

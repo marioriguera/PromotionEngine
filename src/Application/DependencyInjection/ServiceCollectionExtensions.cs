@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
         // Register the handler for processing promotion requests
-        services.AddTransient<IHandler<Features.Promotions.GetAll.V1.Request, Features.Promotions.GetAll.V1.Response>, Features.Promotions.GetAll.V1.Handler>();
+        services.AddTransient<IHandler<Features.Promotions.GetAll.V1.PromotionsV1Request, Features.Promotions.GetAll.V1.PromotionsV1Response>, Features.Promotions.GetAll.V1.PromotionsV1Handler>();
 
         services.AddSingleton<DatabaseConnection>(
                 provider =>
@@ -28,7 +28,7 @@ public static class ServiceCollectionExtensions
 
                     return new DatabaseConnection(connectionString, logger);
                 });
-        services.AddScoped<Repository>();
+        services.AddScoped<PromotionsRepository>();
 
         return services;
     }

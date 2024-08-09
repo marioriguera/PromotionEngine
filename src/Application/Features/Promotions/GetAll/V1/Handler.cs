@@ -1,20 +1,22 @@
-﻿using PromotionEngine.Application.Features.Promotions.GetAll.V1.Repositories;
+﻿using ErrorOr;
+using PromotionEngine.Application.Features.Promotions.GetAll.V1.Repositories;
 using PromotionEngine.Application.Shared;
+using PromotionEngine.Entities;
 
 namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 
 /// <summary>
 /// Handles the request for fetching promotions based on the provided country and language codes.
 /// </summary>
-internal class Handler : IHandler<Request, Response>
+internal class PromotionsV1Handler : IHandler<PromotionsV1Request, PromotionsV1Response>
 {
-    private readonly Repository _repository;
+    private readonly PromotionsRepository _repository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Handler"/> class.
+    /// Initializes a new instance of the <see cref="PromotionsV1Handler"/> class.
     /// </summary>
     /// <param name="repository">The repository used to access promotion data.</param>
-    public Handler(Repository repository)
+    public PromotionsV1Handler(PromotionsRepository repository)
     {
         _repository = repository;
     }
@@ -25,14 +27,21 @@ internal class Handler : IHandler<Request, Response>
     /// <param name="request">The request containing country and language codes.</param>
     /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
     /// <returns>The response containing the list of promotions or an exception if one occurred.</returns>
-    public async Task<Response> HandleAsync(Request request, CancellationToken cancellationToken = default)
+    public async Task<ErrorOr<PromotionsV1Response>> HandleAsync(PromotionsV1Request request, CancellationToken cancellationToken = default)
     {
         /*
          * If it is not necessary to handle exceptions unless it is a system
          * requirement we can leave the responsibility of handling exceptions to a Middleware.
          * I have removed the try/catch from this function.
          */
-        var promotions = await _repository.GetAll(request.CountryCode, cancellationToken).ToListAsync(cancellationToken);
+        IEnumerable<Promotion>? promotions = await _repository.GetAll(request.CountryCode, cancellationToken)
+                                                              .ToListAsync(cancellationToken)
+                                                              ??
+                                                              [];
+        if (!promotions.Any())
+        {
+            return Error.NotFound("Promotions.NotFound", "The promotions with the provide country code was not found.");
+        }
 
         var promotionModels = promotions.Select(promotion =>
         {
@@ -58,6 +67,6 @@ internal class Handler : IHandler<Request, Response>
             return promotionModel;
         }).ToList();
 
-        return new Response().SetPromotions(promotionModels);
+        return new PromotionsV1Response(promotionModels);
     }
 }

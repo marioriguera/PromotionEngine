@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using System.Net;
+﻿using ErrorOr;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace PromotionEngine.Application.Shared;
 
@@ -25,63 +25,59 @@ public abstract class FeatureControllerBase : ControllerBase
     }
 
     /// <summary>
-    /// Handles exceptions by creating a problem details response with a status code of 500 (Internal Server Error).
+    /// Handles different types of errors and returns an appropriate HTTP response.
     /// </summary>
-    /// <param name="ex">The exception to handle.</param>
-    /// <returns>An <see cref="IActionResult"/> representing the problem details response.</returns>
-    protected IActionResult HandleException(Exception ex)
+    /// <param name="errors">The list of errors to handle.</param>
+    /// <returns>An IActionResult representing the HTTP response.</returns>
+    protected IActionResult Problem(List<Error> errors)
     {
-        return Problem(ex, (int)HttpStatusCode.InternalServerError, LogLevel.Error);
-    }
-
-    /// <summary>
-    /// Creates a problem details response with a specified status code and logs the exception.
-    /// </summary>
-    /// <param name="ex">The exception to include in the problem details.</param>
-    /// <param name="statusCode">The HTTP status code for the response.</param>
-    /// <param name="logLevel">The log level used for logging the exception.</param>
-    /// <returns>An <see cref="IActionResult"/> representing the problem details response.</returns>
-    protected IActionResult Problem(Exception ex, int statusCode, LogLevel logLevel = LogLevel.Information)
-    {
-        if (logLevel != LogLevel.None)
+        if (errors.Count is 0)
         {
-            _logger.Log(logLevel: logLevel, exception: ex, message: ex.Message);
+            return Problem();
         }
 
-        var problem = new ProblemDetails()
+        if (errors.All(error => error.Type == ErrorType.Validation))
         {
-            Type = $"https://httpstatuses.com/{statusCode}",
-            Title = ex.Message,
-#if DEBUG
-            Detail = ex.ToString(),
-#endif
-            Status = statusCode,
-            Instance = Request.Path,
-            Extensions = { { "traceId", Activity.Current?.TraceId.ToString() } }
-        };
+            return ValidationProblem(errors);
+        }
 
-        return StatusCode(problem.Status.Value, problem);
+        HttpContext.Items[HttpContextItemKeys.Erros] = errors;
+
+        return Problem(errors[0]);
     }
 
     /// <summary>
-    /// Creates a problem details response for validation errors and logs the issue.
+    /// Returns an appropriate HTTP response based on a single error.
     /// </summary>
-    /// <param name="errors">A dictionary containing validation errors.</param>
-    /// <param name="statusCode">The HTTP status code for the response (default is 400 Bad Request).</param>
-    /// <returns>An <see cref="ObjectResult"/> representing the validation problem details response.</returns>
-    protected ObjectResult Problem(
-        IDictionary<string, string[]> errors,
-        HttpStatusCode statusCode = HttpStatusCode.BadRequest)
+    /// <param name="error">The error to handle.</param>
+    /// <returns>An IActionResult representing the HTTP response.</returns>
+    private IActionResult Problem(Error error)
     {
-        var problem = new ValidationProblemDetails(errors)
+        var statusCode = error.Type switch
         {
-            Type = $"https://httpstatuses.com/{(int)statusCode}",
-            Title = "One or more validation errors occurred.",
-            Status = (int)statusCode,
-            Instance = Request?.Path,
-            Extensions = { { "traceId", Activity.Current?.TraceId.ToString() } }
+            ErrorType.Conflict => StatusCodes.Status409Conflict,
+            ErrorType.Validation => StatusCodes.Status400BadRequest,
+            ErrorType.NotFound => StatusCodes.Status404NotFound,
+            _ => StatusCodes.Status500InternalServerError,
         };
 
-        return StatusCode(problem.Status.Value, problem);
+        return Problem(statusCode: statusCode, title: error.Description);
+    }
+
+    /// <summary>
+    /// Returns a validation error response with a list of validation errors.
+    /// </summary>
+    /// <param name="errors">The list of validation errors.</param>
+    /// <returns>An IActionResult representing the HTTP response.</returns>
+    private IActionResult ValidationProblem(List<Error> errors)
+    {
+        var modelStateDictionary = new ModelStateDictionary();
+
+        foreach (var error in errors)
+        {
+            modelStateDictionary.AddModelError(error.Code, error.Description);
+        }
+
+        return ValidationProblem(modelStateDictionary);
     }
 }

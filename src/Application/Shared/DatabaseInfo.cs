@@ -7,7 +7,6 @@ namespace PromotionEngine.Application.Shared;
 /// DISCLAIMER: YOU CAN'T MODIFY THIS FILE, THIS IS BEEING USED TO SIMULATE A DATABASE
 /// </summary>
 /// Represents a connection to the database for querying promotions.
-/// <param name="connectionString">The connection string for the database.</param>
 internal sealed class DatabaseConnection
     : IDisposable
 {
@@ -200,8 +199,8 @@ internal sealed class DatabaseConnection
     /// <summary>
     /// Initializes a new instance of the <see cref="DatabaseConnection"/> class.
     /// </summary>
-    /// <param name="connectionString"></param>
-    /// <param name="logger"></param>
+    /// <param name="connectionString">The connection string for the database.</param>
+    /// <param name="logger">Logger instance</param>
     public DatabaseConnection(string connectionString, ILogger<DatabaseConnection> logger)
     {
         _logger = logger;
