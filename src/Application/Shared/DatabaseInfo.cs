@@ -197,10 +197,10 @@ internal sealed class DatabaseConnection
         ];
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DatabaseConnection"/> class.
+    /// Initializes a new instance of the <see cref="DatabaseConnection"/> class with the specified connection string and logger.
     /// </summary>
-    /// <param name="connectionString">The connection string for the database.</param>
-    /// <param name="logger">Logger instance</param>
+    /// <param name="connectionString">The connection string used to establish the database connection.</param>
+    /// <param name="logger">The logger used to record database connection activities and errors.</param>
     public DatabaseConnection(string connectionString, ILogger<DatabaseConnection> logger)
     {
         _logger = logger;
