@@ -13,7 +13,7 @@ namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 [ControllerName("Get promotion by id.")]
 public class GetPromotionsByIdV1Controller : FeatureControllerBase
 {
-    private readonly IHandler<PromotionsV1Request, PromotionsV1Response>? _handler;
+    private readonly IHandler<PromotionByIdV1Request, PromotionByIdV1Response> _handler;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GetPromotionsByIdV1Controller"/> class.
@@ -21,7 +21,7 @@ public class GetPromotionsByIdV1Controller : FeatureControllerBase
     /// <param name="handler">The handler to process promotion requests.</param>
     /// <param name="logger">The logger instance for logging.</param>
     public GetPromotionsByIdV1Controller(
-        IHandler<PromotionsV1Request, PromotionsV1Response> handler,
+        IHandler<PromotionByIdV1Request, PromotionByIdV1Response> handler,
         ILogger<GetPromotionsByIdV1Controller> logger)
         : base(logger)
     {
@@ -45,8 +45,10 @@ public class GetPromotionsByIdV1Controller : FeatureControllerBase
         Guid promotionId,
         CancellationToken cancellationToken)
     {
-        var response = string.Empty;
+        var response = await _handler.HandleAsync(new PromotionByIdV1Request(promotionId));
 
-        return Ok();
+        return response.Match(
+                promotion => Ok(promotion),
+                errors => Problem(errors));
     }
 }

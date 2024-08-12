@@ -5,6 +5,9 @@ using PromotionEngine.Application.Features.Promotions.GetAll.V1.Repositories;
 using PromotionEngine.Application.Features.Promotions.GetAll.V2;
 using PromotionEngine.Application.Features.Promotions.GetAll.V2.Mappers;
 using PromotionEngine.Application.Features.Promotions.GetAll.V2.Repositories;
+using PromotionEngine.Application.Features.Promotions.GetById.V1;
+using PromotionEngine.Application.Features.Promotions.GetById.V1.Mappers;
+using PromotionEngine.Application.Features.Promotions.GetById.V1.Repositories;
 using PromotionEngine.Application.Shared.Interfaces;
 using PromotionEngine.Application.Shared.Mappers;
 using PromotionEngine.Application.Shared.Services;
@@ -63,6 +66,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IPromotionsV1Repository, PromotionsV1Repository>();
         services.AddScoped<IPromotionsV2Repository, PromotionsV2Repository>();
+        services.AddScoped<IGetPromotionV1Repository, GetPromotionV1Repository>();
         return services;
     }
 
@@ -77,6 +81,7 @@ public static class ServiceCollectionExtensions
         services.AddAutoMapper(typeof(DiscountToDiscountModelMappingProfile));
         services.AddAutoMapper(typeof(PromotionsV1MappingProfile));
         services.AddAutoMapper(typeof(PromotionsV2MappingProfile));
+        services.AddAutoMapper(typeof(PromotionByIdV1MappingProfile));
 
         return services;
     }
@@ -91,6 +96,7 @@ public static class ServiceCollectionExtensions
         // Register the handler for processing promotion requests
         services.AddTransient<IHandler<PromotionsV1Request, PromotionsV1Response>, PromotionsV1Handler>();
         services.AddTransient<IHandler<PromotionsV2Request, PromotionsV2Response>, PromotionsV2Handler>();
+        services.AddTransient<IHandler<PromotionByIdV1Request, PromotionByIdV1Response>, GetByIdV1Handler>();
         return services;
     }
 }

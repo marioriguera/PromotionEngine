@@ -1,3 +1,9 @@
-﻿namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
+﻿using System.ComponentModel.DataAnnotations;
 
-public record GetPromotionByIdV1Response();
+namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
+
+/// <summary>
+/// Represents the response for getting a promotion by its identifier.
+/// </summary>
+/// <param name="promotion">The promotion details.</param>
+public record PromotionByIdV1Response([Required] PromotionByIdV1Model promotion);

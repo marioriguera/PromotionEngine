@@ -193,6 +193,53 @@ internal sealed class DatabaseConnection
                     }
 
                 ]
+            },
+            new Promotion()
+            {
+                Id = new Guid("684d2064-916f-41bb-8ff9-23c83c7f9282"),
+                CountryCode = "CU",
+                CreatedDate = DateTime.Now,
+                Images = ["Image6", "Image7"],
+                LastModifiedDate = DateTime.Now,
+                Status = PromotionStatus.Disabled,
+                EndValidityDate = DateTime.Now.AddDays(2),
+                DisplayContent = new Dictionary<string, DisplayContent>()
+                {
+                    {
+                        "CU",
+                        new DisplayContent()
+                        {
+                            Description = "Caribbean island",
+                            DiscountDescription = "Caribbean discount",
+                            DiscountTitle = "Cuban Discount",
+                            Title = "Go to Cuba"
+                        }
+                    }
+                },
+                Discounts =
+                [
+                    new StoreDiscount()
+                    {
+                        FinalPrice = 1,
+                        HasPrice = true,
+                        LowestPriceLast30Days = 1,
+                        OriginalPrice = 1,
+                        PriceType = "Type1",
+                        UnitsToBuy = 1,
+                        UnitsToPay = 1
+                    },
+                    new OnlineDiscount()
+                    {
+                        FinalPrice = 1,
+                        HasPrice = true,
+                        LowestPriceLast30Days = 1,
+                        OriginalPrice = 1,
+                        PriceType = "Type1",
+                        UnitsToBuy = 1,
+                        UnitsToPay = 1
+                    }
+
+                ]
             }
 
         ];
