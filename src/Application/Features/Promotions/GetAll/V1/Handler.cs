@@ -41,14 +41,14 @@ internal class PromotionsV1Handler : IHandler<PromotionsV1Request, PromotionsV1R
          * requirement we can leave the responsibility of handling exceptions to a Middleware.
          * I have removed the try/catch from this function.
          */
-        IEnumerable<Promotion> promotions = await _repository.GetAll(request.CountryCode, cancellationToken)
+        IEnumerable<Promotion> promotions = await _repository.GetAll(request.CountryCode, request.LanguageCode, cancellationToken)
                                                              .ToListAsync(cancellationToken)
                                                              ??
                                                              [];
         if (!promotions.Any())
         {
             _logger.LogInformation($"No promotions found for country code {request.CountryCode} and language code {request.LanguageCode} .");
-            return Error.NotFound("Promotions.NotFound", "The promotions with the provide country code was not found.");
+            return Error.NotFound("Promotions.NotFound", $"The promotions with the provide country code {request.CountryCode} and language code {request.LanguageCode} was not found.");
         }
 
         return new PromotionsV1Response(_mapper.Map<List<PromotionModel>>(promotions));

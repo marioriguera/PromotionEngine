@@ -20,11 +20,11 @@ internal sealed class PromotionsRepository : IPromotionsRepository
     }
 
     /// <inheritdoc/>
-    public IAsyncEnumerable<Promotion> GetAll(string countryCode, CancellationToken cancellationToken)
+    public IAsyncEnumerable<Promotion> GetAll(string countryCode, string languageCode, CancellationToken cancellationToken)
     {
         using (_databaseConnectionInfo)
         {
-            return _databaseConnectionInfo.QueryAsync(_ => _.CountryCode == countryCode, cancellationToken);
+            return _databaseConnectionInfo.QueryAsync(_ => _.CountryCode == countryCode && (_.DisplayContent?.ContainsKey(languageCode) ?? false), cancellationToken);
         }
     }
 }

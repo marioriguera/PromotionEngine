@@ -3,7 +3,6 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using PromotionEngine.Application.Shared;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Reflection;
 
 namespace PromotionEngine.Swagger;
 
