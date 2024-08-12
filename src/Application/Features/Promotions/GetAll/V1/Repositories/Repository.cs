@@ -6,25 +6,20 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1.Repositories
 /// <summary>
 /// Repository for accessing promotion data from the database.
 /// </summary>
-internal sealed class PromotionsRepository
+internal sealed class PromotionsRepository : IPromotionsRepository
 {
-    private readonly DatabaseConnection _databaseConnectionInfo;
+    private readonly IDatabaseConnection _databaseConnectionInfo;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PromotionsRepository"/> class with the specified database connection.
     /// </summary>
     /// <param name="databaseConnectionInfo">The database connection information.</param>
-    public PromotionsRepository(DatabaseConnection databaseConnectionInfo)
+    public PromotionsRepository(IDatabaseConnection databaseConnectionInfo)
     {
         _databaseConnectionInfo = databaseConnectionInfo;
     }
 
-    /// <summary>
-    /// Gets all promotions for a specific country code.
-    /// </summary>
-    /// <param name="countryCode">The country code to filter promotions.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-    /// <returns>An asynchronous enumerable of promotions.</returns>
+    /// <inheritdoc/>
     public IAsyncEnumerable<Promotion> GetAll(string countryCode, CancellationToken cancellationToken)
     {
         using (_databaseConnectionInfo)

@@ -13,7 +13,7 @@ internal class PromotionsV1Handler : IHandler<PromotionsV1Request, PromotionsV1R
 {
     private readonly IMapper _mapper;
     private readonly ILogger<PromotionsV1Handler> _logger;
-    private readonly PromotionsRepository _repository;
+    private readonly IPromotionsRepository _repository;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PromotionsV1Handler"/> class.
@@ -21,7 +21,7 @@ internal class PromotionsV1Handler : IHandler<PromotionsV1Request, PromotionsV1R
     /// <param name="mapper">The mapper to convert data models to response models.</param>
     /// <param name="logger">The logger used to record database connection activities and errors.</param>
     /// <param name="repository">The repository used to access promotion data.</param>
-    public PromotionsV1Handler(IMapper mapper, ILogger<PromotionsV1Handler> logger, PromotionsRepository repository)
+    public PromotionsV1Handler(IMapper mapper, ILogger<PromotionsV1Handler> logger, IPromotionsRepository repository)
     {
         _mapper = mapper;
         _logger = logger;
@@ -42,9 +42,9 @@ internal class PromotionsV1Handler : IHandler<PromotionsV1Request, PromotionsV1R
          * I have removed the try/catch from this function.
          */
         IEnumerable<Promotion> promotions = await _repository.GetAll(request.CountryCode, cancellationToken)
-                                                              .ToListAsync(cancellationToken)
-                                                              ??
-                                                              [];
+                                                             .ToListAsync(cancellationToken)
+                                                             ??
+                                                             [];
         if (!promotions.Any())
         {
             _logger.LogInformation($"No promotions found for country code {request.CountryCode} and language code {request.LanguageCode} .");

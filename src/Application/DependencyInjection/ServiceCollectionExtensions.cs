@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PromotionEngine.Application.Features.Promotions.GetAll.V1;
 using PromotionEngine.Application.Features.Promotions.GetAll.V1.Mappers;
 using PromotionEngine.Application.Features.Promotions.GetAll.V1.Repositories;
 using PromotionEngine.Application.Shared;
@@ -18,11 +19,25 @@ public static class ServiceCollectionExtensions
     /// <returns>The updated service collection with the registered services.</returns>
     public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
-        // Register the handler for processing promotion requests
-        services.AddTransient<IHandler<Features.Promotions.GetAll.V1.PromotionsV1Request, Features.Promotions.GetAll.V1.PromotionsV1Response>, Features.Promotions.GetAll.V1.PromotionsV1Handler>();
+        // The order of service registration must be maintained.
+        services.AddDatabasesConnections(configuration)
+                .AddRepositories()
+                .AddMappers()
+                .AddHandlers();
 
+        return services;
+    }
+
+    /// <summary>
+    /// Adds database connection services to the dependency injection container.
+    /// </summary>
+    /// <param name="services">The service collection to add services to.</param>
+    /// <param name="configuration">The configuration object to retrieve connection strings.</param>
+    /// <returns>The updated service collection.</returns>
+    private static IServiceCollection AddDatabasesConnections(this IServiceCollection services, IConfiguration configuration)
+    {
         // Register database connection service.
-        services.AddSingleton<DatabaseConnection>(
+        services.AddSingleton<IDatabaseConnection, DatabaseConnection>(
                 provider =>
                 {
                     var logger = provider.GetRequiredService<ILogger<DatabaseConnection>>();
@@ -30,11 +45,43 @@ public static class ServiceCollectionExtensions
 
                     return new DatabaseConnection(connectionString, logger);
                 });
-        services.AddScoped<PromotionsRepository>();
 
+        return services;
+    }
+
+    /// <summary>
+    /// Adds repository services to the dependency injection container.
+    /// </summary>
+    /// <param name="services">The service collection to add services to.</param>
+    /// <returns>The updated service collection.</returns>
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        services.AddScoped<IPromotionsRepository, PromotionsRepository>();
+        return services;
+    }
+
+    /// <summary>
+    /// Adds mapper services to the dependency injection container.
+    /// </summary>
+    /// <param name="services">The service collection to add services to.</param>
+    /// <returns>The updated service collection.</returns>
+    private static IServiceCollection AddMappers(this IServiceCollection services)
+    {
         // Register mappers.
         services.AddAutoMapper(typeof(PromotionsMappingProfile));
 
+        return services;
+    }
+
+    /// <summary>
+    /// Adds handler services to the dependency injection container.
+    /// </summary>
+    /// <param name="services">The service collection to add services to.</param>
+    /// <returns>The updated service collection.</returns>
+    private static IServiceCollection AddHandlers(this IServiceCollection services)
+    {
+        // Register the handler for processing promotion requests
+        services.AddTransient<IHandler<PromotionsV1Request, PromotionsV1Response>, PromotionsV1Handler>();
         return services;
     }
 }

@@ -8,7 +8,7 @@ namespace PromotionEngine.Application.Shared;
 /// </summary>
 /// Represents a connection to the database for querying promotions.
 internal sealed class DatabaseConnection
-    : IDisposable
+    : IDatabaseConnection
 {
     private readonly ILogger<DatabaseConnection> _logger;
     private readonly string _connectionString;
@@ -207,12 +207,7 @@ internal sealed class DatabaseConnection
         _connectionString = connectionString;
     }
 
-    /// <summary>
-    /// Queries the database asynchronously for promotions that match the specified predicate.
-    /// </summary>
-    /// <param name="predicate">The predicate to filter the promotions.</param>
-    /// <param name="cancellationToken">A token to cancel the asynchronous operation.</param>
-    /// <returns>An async enumerable of promotions matching the predicate.</returns>
+    /// <inheritdoc/>
     public async IAsyncEnumerable<Promotion> QueryAsync(Func<Promotion, bool> predicate, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         if (!await ConnectAsync(cancellationToken))
@@ -230,17 +225,10 @@ internal sealed class DatabaseConnection
         }
     }
 
-    /// <summary>
-    /// Connects to the database asynchronously.
-    /// </summary>
-    /// <param name="cancellationToken">A token to cancel the asynchronous operation.</param>
-    /// <returns>A task representing the asynchronous operation.</returns>
+    /// <inheritdoc/>
     public async Task<bool> ConnectAsync(CancellationToken cancellationToken) => await Task.FromResult(!string.IsNullOrEmpty(_connectionString));
 
-    /// <summary>
-    /// Pings the database to check the connection.
-    /// </summary>
-    /// <returns>A task representing the asynchronous operation, with a boolean result indicating success.</returns>
+    /// <inheritdoc/>
     public async Task<bool> PingAsync() => await Task.FromResult(true);
 
     /// <summary>
