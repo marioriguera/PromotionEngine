@@ -9,7 +9,7 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 /// <summary>
 /// Handles the request for fetching promotions based on the provided country and language codes.
 /// </summary>
-internal class PromotionsV1Handler : IHandler<PromotionsV1Request, PromotionsV1Response>
+internal sealed class PromotionsV1Handler : IHandler<PromotionsV1Request, PromotionsV1Response>
 {
     private readonly IMapper _mapper;
     private readonly ILogger<PromotionsV1Handler> _logger;

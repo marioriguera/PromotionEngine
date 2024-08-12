@@ -28,6 +28,8 @@ internal sealed class PromotionsV1MappingProfile : Profile
                                 src.DisplayContent.TryGetValue(src.CountryCode, out var discountDescriptionContent) ? discountDescriptionContent.DiscountDescription : null)
                             : null,
                     src.Images,
-                    src.Discounts ?? Enumerable.Empty<Discount>().ToList()));
+                    src.Discounts != null
+                                  ? context.Mapper.Map<List<DiscountModel>>(src.Discounts)
+                                  : null));
     }
 }

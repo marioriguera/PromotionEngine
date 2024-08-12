@@ -17,5 +17,5 @@ public record PromotionV1Model(
         [Required] DateTime EndValidityDate,
         PromotionTextsModel? Texts,
         List<string> Images,
-        List<Discount> Discounts)
+        List<DiscountModel>? Discounts)
     : PromotionBaseModel(PromotionId, EndValidityDate, Texts, Images, Discounts);

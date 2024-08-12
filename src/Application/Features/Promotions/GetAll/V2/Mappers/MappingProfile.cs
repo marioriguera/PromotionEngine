@@ -5,20 +5,20 @@ using PromotionEngine.Entities;
 namespace PromotionEngine.Application.Features.Promotions.GetAll.V2.Mappers;
 
 /// <summary>
-/// AutoMapper profile for mapping between <see cref="Promotion"/> and <see cref="PromotionV2Model"/>.
+/// AutoMapper profile for mapping between <see cref="Promotion"/> and <see cref="GetAllPromotionsV2Model"/>.
 /// </summary>
 internal sealed class PromotionsV2MappingProfile : Profile
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="PromotionsV2MappingProfile"/> class.
-    /// Configures mappings between <see cref="Promotion"/> and <see cref="PromotionV2Model"/>.
+    /// Configures mappings between <see cref="Promotion"/> and <see cref="GetAllPromotionsV2Model"/>.
     /// </summary>
     public PromotionsV2MappingProfile()
     {
-        CreateMap<Promotion, PromotionV2Model>()
-                .ConvertUsing((src, dest, context) => new PromotionV2Model(
+        CreateMap<Promotion, GetAllPromotionsV2Model>()
+                .ConvertUsing((src, dest, context) => new GetAllPromotionsV2Model(
                     src.Id,
-                    src.Status,
+                    src.Status.ToString(),
                     src.CreatedDate,
                     src.EndValidityDate,
                     src.DisplayContent != null
@@ -29,6 +29,6 @@ internal sealed class PromotionsV2MappingProfile : Profile
                                 src.DisplayContent.TryGetValue(src.CountryCode, out var discountDescriptionContent) ? discountDescriptionContent.DiscountDescription : null)
                             : null,
                     src.Images,
-                    src.Discounts ?? Enumerable.Empty<Discount>().ToList()));
+                    src.Discounts != null ? context.Mapper.Map<List<DiscountModel>>(src.Discounts) : null));
     }
 }

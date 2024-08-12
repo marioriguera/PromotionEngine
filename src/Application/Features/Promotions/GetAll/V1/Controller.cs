@@ -9,18 +9,19 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 /// </summary>
 [ApiVersion(1.0)]
 [Route("api/v{v:apiVersion}/promotions")]
-public class PromotionsV1Controller : FeatureControllerBase
+[ControllerName("Get alls promotions.")]
+public class GetAllsPromotionsV1Controller : FeatureControllerBase
 {
     private readonly IHandler<PromotionsV1Request, PromotionsV1Response>? _handler;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PromotionsV1Controller"/> class.
+    /// Initializes a new instance of the <see cref="GetAllsPromotionsV1Controller"/> class.
     /// </summary>
     /// <param name="handler">The handler to process promotion requests.</param>
     /// <param name="logger">The logger instance for logging.</param>
-    public PromotionsV1Controller(
+    public GetAllsPromotionsV1Controller(
         IHandler<PromotionsV1Request, PromotionsV1Response> handler,
-        ILogger<PromotionsV1Controller> logger)
+        ILogger<GetAllsPromotionsV1Controller> logger)
         : base(logger)
     {
         _handler = handler;
@@ -40,7 +41,7 @@ public class PromotionsV1Controller : FeatureControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PromotionsV1Response))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [SwaggerOperation(OperationId = "PromotionsList", Description = "Get Promotions")]
-    public async Task<IActionResult> GetAllPromotionsV1Async(
+    public async Task<IActionResult> GetAllPromotionsAsync(
         [SwaggerParameter("ISO-3166 ALPHA-2")] string countryCode,
         string languageCode,
         CancellationToken cancellationToken)

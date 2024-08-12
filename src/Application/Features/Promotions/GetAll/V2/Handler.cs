@@ -9,7 +9,7 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V2;
 /// <summary>
 /// Handler for processing version 2 promotion requests.
 /// </summary>
-internal class PromotionsV2Handler : IHandler<PromotionsV2Request, PromotionsV2Response>
+internal sealed class PromotionsV2Handler : IHandler<PromotionsV2Request, PromotionsV2Response>
 {
     private readonly IMapper _mapper;
     private readonly ILogger<PromotionsV2Handler> _logger;
@@ -54,7 +54,7 @@ internal class PromotionsV2Handler : IHandler<PromotionsV2Request, PromotionsV2R
         }
 
         // Map the promotions to the response model
-        var response = _mapper.Map<List<PromotionV2Model>>(promotions);
+        var response = _mapper.Map<List<GetAllPromotionsV2Model>>(promotions);
 
         return new PromotionsV2Response(response, response.Count);
     }

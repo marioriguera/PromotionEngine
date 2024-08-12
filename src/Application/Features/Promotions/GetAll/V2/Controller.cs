@@ -9,18 +9,19 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V2;
 /// </summary>
 [ApiVersion(2.0)]
 [Route("api/v{v:apiVersion}/promotions")]
-public class PromotionsV2Controller : FeatureControllerBase
+[ControllerName("Get alls promotions.")]
+public class GetAllsPromotionsV2Controller : FeatureControllerBase
 {
     private readonly IHandler<PromotionsV2Request, PromotionsV2Response> _handler;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PromotionsV2Controller"/> class.
+    /// Initializes a new instance of the <see cref="GetAllsPromotionsV2Controller"/> class.
     /// </summary>
     /// <param name="handler">The handler to process promotion requests.</param>
     /// <param name="logger">The logger instance for logging.</param>
-    public PromotionsV2Controller(
+    public GetAllsPromotionsV2Controller(
             IHandler<PromotionsV2Request, PromotionsV2Response> handler,
-            ILogger<PromotionsV2Controller> logger)
+            ILogger<GetAllsPromotionsV2Controller> logger)
         : base(logger)
     {
         _handler = handler;

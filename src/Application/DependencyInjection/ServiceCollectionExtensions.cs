@@ -6,6 +6,7 @@ using PromotionEngine.Application.Features.Promotions.GetAll.V2;
 using PromotionEngine.Application.Features.Promotions.GetAll.V2.Mappers;
 using PromotionEngine.Application.Features.Promotions.GetAll.V2.Repositories;
 using PromotionEngine.Application.Shared.Interfaces;
+using PromotionEngine.Application.Shared.Mappers;
 using PromotionEngine.Application.Shared.Services;
 
 namespace PromotionEngine.Application.DependencyInjection;
@@ -73,6 +74,7 @@ public static class ServiceCollectionExtensions
     private static IServiceCollection AddMappers(this IServiceCollection services)
     {
         // Register mappers.
+        services.AddAutoMapper(typeof(DiscountToDiscountModelMappingProfile));
         services.AddAutoMapper(typeof(PromotionsV1MappingProfile));
         services.AddAutoMapper(typeof(PromotionsV2MappingProfile));
 
