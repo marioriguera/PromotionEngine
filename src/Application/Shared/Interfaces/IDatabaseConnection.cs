@@ -1,6 +1,6 @@
 ﻿using PromotionEngine.Entities;
 
-namespace PromotionEngine.Application.Shared;
+namespace PromotionEngine.Application.Shared.Interfaces;
 
 /// <summary>
 /// Defines an interface for a database connection that supports querying promotions and checking the connection status.

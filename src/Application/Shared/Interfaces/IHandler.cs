@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
 
-namespace PromotionEngine.Application.Shared;
+namespace PromotionEngine.Application.Shared.Interfaces;
 
 /// <summary>
 /// Defines a contract for handling requests of type <typeparamref name="TRequest"/> and returning responses of type <typeparamref name="TResponse"/>.

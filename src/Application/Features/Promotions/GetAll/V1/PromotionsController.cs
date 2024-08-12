@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
-using PromotionEngine.Application.Shared;
+using PromotionEngine.Application.Shared.Abstracts;
+using PromotionEngine.Application.Shared.Interfaces;
 
 namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 

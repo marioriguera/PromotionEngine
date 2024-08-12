@@ -23,4 +23,10 @@
 		<ProjectReference Include="..\..\Entities\Entities.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Features\Promotions\GetAll\V2\Mappers\" />
+	  <Folder Include="Features\Promotions\GetAll\V2\Repositories\" />
+	  <Folder Include="Shared\Models\" />
+	</ItemGroup>
+
 </Project>

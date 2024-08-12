@@ -1,4 +1,4 @@
-﻿namespace PromotionEngine.Application.Shared;
+﻿namespace PromotionEngine.Application.Shared.Constants;
 
 /// <summary>
 /// Provides keys for items stored in the HTTP context.

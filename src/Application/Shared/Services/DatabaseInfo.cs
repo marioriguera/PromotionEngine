@@ -1,7 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
+using PromotionEngine.Application.Shared.Interfaces;
 using PromotionEngine.Entities;
 
-namespace PromotionEngine.Application.Shared;
+namespace PromotionEngine.Application.Shared.Services;
 
 /// <summary>
 /// DISCLAIMER: YOU CAN'T MODIFY THIS FILE, THIS IS BEEING USED TO SIMULATE A DATABASE

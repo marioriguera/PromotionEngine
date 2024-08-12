@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using ErrorOr;
 using PromotionEngine.Application.Features.Promotions.GetAll.V1.Repositories;
-using PromotionEngine.Application.Shared;
+using PromotionEngine.Application.Shared.Interfaces;
 using PromotionEngine.Entities;
 
 namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;

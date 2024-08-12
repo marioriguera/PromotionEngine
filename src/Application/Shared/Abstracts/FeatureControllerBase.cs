@@ -1,7 +1,8 @@
 ﻿using ErrorOr;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using PromotionEngine.Application.Shared.Constants;
 
-namespace PromotionEngine.Application.Shared;
+namespace PromotionEngine.Application.Shared.Abstracts;
 
 /// <summary>
 /// Base class for API controllers providing common functionalities for error handling and logging.

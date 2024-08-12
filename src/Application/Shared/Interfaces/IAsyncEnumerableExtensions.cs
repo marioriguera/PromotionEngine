@@ -1,4 +1,4 @@
-namespace PromotionEngine.Application.Shared;
+namespace PromotionEngine.Application.Shared.Interfaces;
 
 /// <summary>
 /// Extension methods for working with <see cref="IAsyncEnumerable{T}"/>.
