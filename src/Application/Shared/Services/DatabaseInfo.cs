@@ -209,21 +209,15 @@ internal sealed class DatabaseConnection
     }
 
     /// <inheritdoc/>
-    public async IAsyncEnumerable<Promotion> QueryAsync(Func<Promotion, bool> predicate, [EnumeratorCancellation] CancellationToken cancellationToken)
+    public IAsyncEnumerable<Promotion> QueryAsync(Func<Promotion, bool> predicate, CancellationToken cancellationToken)
     {
-        if (!await ConnectAsync(cancellationToken))
-        {
-            throw new InvalidOperationException("Failed to connect to the database.");
-        }
+        return QueryAsyncInternal(predicate, null, cancellationToken);
+    }
 
-        foreach (var promotion in _promotions.Where(predicate))
-        {
-            if (cancellationToken.IsCancellationRequested)
-                break;
-
-            await Task.Yield();
-            yield return promotion;
-        }
+    /// <inheritdoc/>
+    public IAsyncEnumerable<Promotion> QueryAsync(Func<Promotion, bool> predicate, int countMaxToTake, CancellationToken cancellationToken)
+    {
+        return QueryAsyncInternal(predicate, countMaxToTake, cancellationToken);
     }
 
     /// <inheritdoc/>
@@ -240,5 +234,37 @@ internal sealed class DatabaseConnection
         // Dispose resources if needed.
         // I will not delete the data from the list of promotions in memory.
         _logger.LogInformation($"Database connection resources will be dispose.");
+    }
+
+    /// <summary>
+    /// Queries the in-memory promotions collection asynchronously based on the specified predicate and maximum count.
+    /// </summary>
+    /// <param name="predicate">The predicate to filter the promotions.</param>
+    /// <param name="countMaxToTake">The maximum number of promotions to retrieve, or null to retrieve all matching promotions.</param>
+    /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
+    /// <returns>An async enumerable of promotions matching the predicate, up to the specified count.</returns>
+    /// <exception cref="InvalidOperationException">Thrown if the database connection fails.</exception>
+    private async IAsyncEnumerable<Promotion> QueryAsyncInternal(
+        Func<Promotion, bool> predicate,
+        int? countMaxToTake,
+        [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        if (!await ConnectAsync(cancellationToken))
+        {
+            throw new InvalidOperationException("Failed to connect to the database.");
+        }
+
+        int count = 0;
+
+        foreach (var promotion in _promotions.Where(predicate))
+        {
+            if (cancellationToken.IsCancellationRequested || (countMaxToTake.HasValue && count >= countMaxToTake.Value))
+                break;
+
+            await Task.Yield();
+            yield return promotion;
+
+            count++;
+        }
     }
 }

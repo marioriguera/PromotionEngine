@@ -9,18 +9,18 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 /// </summary>
 [ApiVersion(1.0)]
 [Route("api/v{v:apiVersion}/promotions")]
-public class PromotionsController : FeatureControllerBase
+public class PromotionsV1Controller : FeatureControllerBase
 {
-    private readonly IHandler<PromotionsV1Request, PromotionsV1Response> _handler;
+    private readonly IHandler<PromotionsV1Request, PromotionsV1Response>? _handler;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PromotionsController"/> class.
+    /// Initializes a new instance of the <see cref="PromotionsV1Controller"/> class.
     /// </summary>
     /// <param name="handler">The handler to process promotion requests.</param>
     /// <param name="logger">The logger instance for logging.</param>
-    public PromotionsController(
+    public PromotionsV1Controller(
         IHandler<PromotionsV1Request, PromotionsV1Response> handler,
-        ILogger<PromotionsController> logger)
+        ILogger<PromotionsV1Controller> logger)
         : base(logger)
     {
         _handler = handler;
@@ -45,7 +45,10 @@ public class PromotionsController : FeatureControllerBase
         string languageCode,
         CancellationToken cancellationToken)
     {
-        var response = await _handler.HandleAsync(new PromotionsV1Request(countryCode, languageCode), cancellationToken);
+        var response = await _handler!.HandleAsync(
+            new PromotionsV1Request(
+                                    countryCode,
+                                    languageCode), cancellationToken);
 
         return response.Match(
                 promotions => Ok(promotions),

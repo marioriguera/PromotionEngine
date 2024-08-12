@@ -4,8 +4,9 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1.Repositories
 
 /// <summary>
 /// Defines methods for accessing promotion data from a repository.
+/// Version 1.
 /// </summary>
-public interface IPromotionsRepository
+public interface IPromotionsV1Repository
 {
     /// <summary>
     /// Gets all promotions for a specific country code.

@@ -16,6 +16,15 @@ public interface IDatabaseConnection : IDisposable
     IAsyncEnumerable<Promotion> QueryAsync(Func<Promotion, bool> predicate, CancellationToken cancellationToken);
 
     /// <summary>
+    /// Queries the database asynchronously for a specified number of promotions that match the given predicate.
+    /// </summary>
+    /// <param name="predicate">The predicate to filter the promotions.</param>
+    /// <param name="countMaxToTake">The maximum number of promotions to retrieve.</param>
+    /// <param name="cancellationToken">A token to cancel the asynchronous operation.</param>
+    /// <returns>An async enumerable of promotions matching the predicate, up to the specified count.</returns>
+    IAsyncEnumerable<Promotion> QueryAsync(Func<Promotion, bool> predicate, int countMaxToTake, CancellationToken cancellationToken);
+
+    /// <summary>
     /// Connects to the database asynchronously.
     /// </summary>
     /// <param name="cancellationToken">A token to cancel the asynchronous operation.</param>

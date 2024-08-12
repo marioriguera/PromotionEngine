@@ -5,16 +5,17 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1.Repositories
 
 /// <summary>
 /// Repository for accessing promotion data from the database.
+/// Version 1.
 /// </summary>
-internal sealed class PromotionsRepository : IPromotionsRepository
+internal sealed class PromotionsV1Repository : IPromotionsV1Repository
 {
     private readonly IDatabaseConnection _databaseConnectionInfo;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PromotionsRepository"/> class with the specified database connection.
+    /// Initializes a new instance of the <see cref="PromotionsV1Repository"/> class with the specified database connection.
     /// </summary>
     /// <param name="databaseConnectionInfo">The database connection information.</param>
-    public PromotionsRepository(IDatabaseConnection databaseConnectionInfo)
+    public PromotionsV1Repository(IDatabaseConnection databaseConnectionInfo)
     {
         _databaseConnectionInfo = databaseConnectionInfo;
     }

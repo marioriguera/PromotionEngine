@@ -93,6 +93,7 @@ dotnet_diagnostic.SA1413.severity = none
 csharp_style_unused_value_assignment_preference = discard_variable:suggestion
 csharp_indent_labels = no_change
 dotnet_diagnostic.SA0001.severity = none
+dotnet_diagnostic.SA1118.severity = none
 
 [*.vb]
 #### Estilos de nomenclatura ####

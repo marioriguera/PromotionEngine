@@ -24,9 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Features\Promotions\GetAll\V2\Mappers\" />
-	  <Folder Include="Features\Promotions\GetAll\V2\Repositories\" />
-	  <Folder Include="Shared\Models\" />
+	  <Folder Include="Features\Promotions\GetById\V1\" />
 	</ItemGroup>
 
 </Project>
