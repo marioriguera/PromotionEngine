@@ -43,7 +43,7 @@ public static class ServiceCollectionExtensions
     /// <param name="services">The service collection to add services to.</param>
     /// <param name="configuration">The configuration object to retrieve connection strings.</param>
     /// <returns>The updated service collection.</returns>
-    private static IServiceCollection AddDatabasesConnections(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddDatabasesConnections(this IServiceCollection services, IConfiguration configuration)
     {
         // Register database connection service.
         services.AddSingleton<IDatabaseConnection, DatabaseConnection>(
@@ -63,7 +63,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services">The service collection to add services to.</param>
     /// <returns>The updated service collection.</returns>
-    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<IPromotionsRepository, PromotionsRepository>();
         return services;
@@ -74,7 +74,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services">The service collection to add services to.</param>
     /// <returns>The updated service collection.</returns>
-    private static IServiceCollection AddMappers(this IServiceCollection services)
+    public static IServiceCollection AddMappers(this IServiceCollection services)
     {
         // Register mappers.
         services.AddAutoMapper(typeof(DiscountToDiscountModelMappingProfile));
@@ -90,7 +90,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services">The service collection to add services to.</param>
     /// <returns>The updated service collection.</returns>
-    private static IServiceCollection AddHandlers(this IServiceCollection services)
+    public static IServiceCollection AddHandlers(this IServiceCollection services)
     {
         // Register the handler for processing promotion requests
         services.AddTransient<IHandler<PromotionsV1Request, PromotionsV1Response>, PromotionsV1Handler>();
@@ -105,7 +105,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to which the validators will be added.</param>
     /// <returns>The modified <see cref="IServiceCollection"/> with validators registered.</returns>
-    private static IServiceCollection AddValidators(this IServiceCollection services)
+    public static IServiceCollection AddValidators(this IServiceCollection services)
     {
         services.AddValidatorsFromAssembly(ApplicationAssemblyReference.Assembly);
 

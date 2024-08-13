@@ -14,7 +14,7 @@ namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 /// <param name="Images">A list of image URLs associated with the promotion.</param>
 public record PromotionByIdV1Model(
     Guid PromotionId,
-    PromotionStatus Status,
+    PromotionStatus Status, // ToDo: arreglar esto, porque usa una clase de la capa de entidades.
     DateTime CreatedDate,
     DateTime LastModifiedDate,
     DateTime EndValidityDate,

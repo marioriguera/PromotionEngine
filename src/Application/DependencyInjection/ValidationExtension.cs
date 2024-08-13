@@ -23,7 +23,7 @@ public static class ValidationExtension
     /// <param name="request">The request object to be validated.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the validation operation if needed.</param>
     /// <returns>
-    /// A task representing the asynchronous operation. The task result contains a list of <see cref="Error"/> objects if validation fails, 
+    /// A task representing the asynchronous operation. The task result contains a list of <see cref="Error"/> objects if validation fails,
     /// or <c>null</c> if validation succeeds.
     /// </returns>
     public static async Task<List<Error>?> ExecuteValidateAsync<T>(this IValidator<T> validator, T request, CancellationToken cancellationToken)
