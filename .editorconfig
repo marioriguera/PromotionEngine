@@ -95,6 +95,9 @@ csharp_indent_labels = no_change
 dotnet_diagnostic.SA0001.severity = none
 dotnet_diagnostic.SA1118.severity = none
 
+# CS0618: El tipo o el miembro están obsoletos
+dotnet_diagnostic.CS0618.severity = silent
+
 [*.vb]
 #### Estilos de nomenclatura ####
 
@@ -152,3 +155,6 @@ dotnet_diagnostic.CA1860.severity = none
 dotnet_code_quality_unused_parameters = all:suggestion
 tab_width = 4
 indent_size = 4
+
+# Default severity for analyzer diagnostics with category 'Style'
+dotnet_analyzer_diagnostic.category-Style.severity = none

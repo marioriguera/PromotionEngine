@@ -6,6 +6,8 @@ using PromotionEngine.Middlewares;
 using PromotionEngine.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Serilog;
+using FluentValidation.AspNetCore;
+using PromotionEngine.Application.Shared;
 
 namespace PromotionEngine.DependencyInjection;
 

@@ -1,13 +1,16 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 using PromotionEngine.Application.Features.Promotions.GetAll.V1;
 using PromotionEngine.Application.Features.Promotions.GetAll.V1.Mappers;
 using PromotionEngine.Application.Features.Promotions.GetAll.V1.Repositories;
+using PromotionEngine.Application.Features.Promotions.GetAll.V1.Validators;
 using PromotionEngine.Application.Features.Promotions.GetAll.V2;
 using PromotionEngine.Application.Features.Promotions.GetAll.V2.Mappers;
 using PromotionEngine.Application.Features.Promotions.GetAll.V2.Repositories;
 using PromotionEngine.Application.Features.Promotions.GetById.V1;
 using PromotionEngine.Application.Features.Promotions.GetById.V1.Mappers;
 using PromotionEngine.Application.Features.Promotions.GetById.V1.Repositories;
+using PromotionEngine.Application.Shared;
 using PromotionEngine.Application.Shared.Interfaces;
 using PromotionEngine.Application.Shared.Mappers;
 using PromotionEngine.Application.Shared.Services;
@@ -31,7 +34,8 @@ public static class ServiceCollectionExtensions
         services.AddDatabasesConnections(configuration)
                 .AddRepositories()
                 .AddMappers()
-                .AddHandlers();
+                .AddHandlers()
+                .AddValidators();
 
         return services;
     }
@@ -97,6 +101,19 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IHandler<PromotionsV1Request, PromotionsV1Response>, PromotionsV1Handler>();
         services.AddTransient<IHandler<PromotionsV2Request, PromotionsV2Response>, PromotionsV2Handler>();
         services.AddTransient<IHandler<PromotionByIdV1Request, PromotionByIdV1Response>, GetByIdV1Handler>();
+        return services;
+    }
+
+    /// <summary>
+    /// Registers all validators from the assembly referenced by <see cref="ApplicationAssemblyReference.Assembly"/> 
+    /// with the specified <see cref="IServiceCollection"/>.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection"/> to which the validators will be added.</param>
+    /// <returns>The modified <see cref="IServiceCollection"/> with validators registered.</returns>
+    private static IServiceCollection AddValidators(this IServiceCollection services)
+    {
+        services.AddValidatorsFromAssembly(ApplicationAssemblyReference.Assembly);
+
         return services;
     }
 }

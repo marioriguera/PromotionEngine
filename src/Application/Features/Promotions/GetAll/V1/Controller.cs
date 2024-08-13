@@ -1,4 +1,7 @@
 ﻿using Asp.Versioning;
+using ErrorOr;
+using FluentValidation;
+using PromotionEngine.Application.Features.Promotions.GetById.V1;
 using PromotionEngine.Application.Shared.Abstracts;
 using PromotionEngine.Application.Shared.Interfaces;
 
@@ -13,18 +16,22 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 public class GetAllsPromotionsV1Controller : FeatureControllerBase
 {
     private readonly IHandler<PromotionsV1Request, PromotionsV1Response>? _handler;
+    private readonly IValidator<PromotionsV1Request> _validator;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GetAllsPromotionsV1Controller"/> class.
     /// </summary>
-    /// <param name="handler">The handler to process promotion requests.</param>
-    /// <param name="logger">The logger instance for logging.</param>
+    /// <param name="handler">The handler for processing <see cref="PromotionsV1Request"/> and returning <see cref="PromotionsV1Response"/>.</param>
+    /// <param name="validator">The validator for <see cref="PromotionByIdV1Model"/>.</param>
+    /// <param name="logger">The logger instance for logging messages.</param>
     public GetAllsPromotionsV1Controller(
         IHandler<PromotionsV1Request, PromotionsV1Response> handler,
+        IValidator<PromotionsV1Request> validator,
         ILogger<GetAllsPromotionsV1Controller> logger)
         : base(logger)
     {
         _handler = handler;
+        _validator = validator;
     }
 
     /// <summary>
@@ -46,10 +53,19 @@ public class GetAllsPromotionsV1Controller : FeatureControllerBase
         string languageCode,
         CancellationToken cancellationToken)
     {
-        var response = await _handler!.HandleAsync(
-            new PromotionsV1Request(
-                                    countryCode,
-                                    languageCode), cancellationToken);
+        var request = new PromotionsV1Request(countryCode, languageCode);
+
+        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
+        if (!validationResult.IsValid)
+        {
+            var errors = validationResult.Errors
+                                         .ConvertAll(validationFailure => Error.Validation(
+                                                validationFailure.PropertyName,
+                                                validationFailure.ErrorMessage));
+            return Problem(errors);
+        }
+
+        var response = await _handler!.HandleAsync(request, cancellationToken);
 
         return response.Match(
                 promotions => Ok(promotions),
