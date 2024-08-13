@@ -2,6 +2,7 @@
 using PromotionEngine.Application.Features.Promotions.GetAll.V1;
 using PromotionEngine.Application.Shared.Abstracts;
 using PromotionEngine.Application.Shared.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 
@@ -42,7 +43,7 @@ public class GetPromotionsByIdV1Controller : FeatureControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [SwaggerOperation(OperationId = "Promotion", Description = "Get Promotion by Id")]
     public async Task<IActionResult> GetPromotionByIdAsync(
-        Guid promotionId,
+        [Required] Guid promotionId,
         CancellationToken cancellationToken)
     {
         var response = await _handler.HandleAsync(new PromotionByIdV1Request(promotionId));

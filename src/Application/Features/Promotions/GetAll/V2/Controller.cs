@@ -1,4 +1,8 @@
 ﻿using Asp.Versioning;
+using ErrorOr;
+using FluentValidation;
+using PromotionEngine.Application.DependencyInjection;
+using PromotionEngine.Application.Features.Promotions.GetAll.V1;
 using PromotionEngine.Application.Shared.Abstracts;
 using PromotionEngine.Application.Shared.Interfaces;
 
@@ -13,18 +17,22 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V2;
 public class GetAllsPromotionsV2Controller : FeatureControllerBase
 {
     private readonly IHandler<PromotionsV2Request, PromotionsV2Response> _handler;
+    private readonly IValidator<PromotionsV2Request> _validator;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GetAllsPromotionsV2Controller"/> class.
     /// </summary>
-    /// <param name="handler">The handler to process promotion requests.</param>
-    /// <param name="logger">The logger instance for logging.</param>
+    /// <param name="handler">The handler used to process promotion requests and generate responses.</param>
+    /// <param name="validator">The validator used to validate promotion request data.</param>
+    /// <param name="logger">The logger instance used for logging information and errors.</param>
     public GetAllsPromotionsV2Controller(
             IHandler<PromotionsV2Request, PromotionsV2Response> handler,
+            IValidator<PromotionsV2Request> validator,
             ILogger<GetAllsPromotionsV2Controller> logger)
         : base(logger)
     {
         _handler = handler;
+        _validator = validator;
     }
 
     /// <summary>
@@ -48,11 +56,14 @@ public class GetAllsPromotionsV2Controller : FeatureControllerBase
         int maxPromotions,
         CancellationToken cancellationToken)
     {
-        var response = await _handler.HandleAsync(
-            new PromotionsV2Request(
-                                    countryCode,
-                                    languageCode,
-                                    maxPromotions), cancellationToken);
+        var request = new PromotionsV2Request(countryCode, languageCode, maxPromotions);
+
+        if (await _validator.ExecuteValidateAsync(request, cancellationToken) is List<Error> errorsList)
+        {
+            return Problem(errorsList);
+        }
+
+        var response = await _handler.HandleAsync(request, cancellationToken);
 
         return response.Match(
                 promotions => Ok(promotions),
