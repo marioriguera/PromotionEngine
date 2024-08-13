@@ -1,8 +1,11 @@
-﻿using Asp.Versioning;
+﻿using System.ComponentModel.DataAnnotations;
+using Asp.Versioning;
+using ErrorOr;
+using FluentValidation;
+using PromotionEngine.Application.DependencyInjection;
 using PromotionEngine.Application.Features.Promotions.GetAll.V1;
 using PromotionEngine.Application.Shared.Abstracts;
 using PromotionEngine.Application.Shared.Interfaces;
-using System.ComponentModel.DataAnnotations;
 
 namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 
@@ -15,18 +18,22 @@ namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 public class GetPromotionsByIdV1Controller : FeatureControllerBase
 {
     private readonly IHandler<PromotionByIdV1Request, PromotionByIdV1Response> _handler;
+    private readonly IValidator<PromotionByIdV1Request> _validator;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GetPromotionsByIdV1Controller"/> class.
     /// </summary>
     /// <param name="handler">The handler to process promotion requests.</param>
+    /// <param name="validator">The validator for <see cref="PromotionByIdV1Request"/>.</param>
     /// <param name="logger">The logger instance for logging.</param>
     public GetPromotionsByIdV1Controller(
         IHandler<PromotionByIdV1Request, PromotionByIdV1Response> handler,
+        IValidator<PromotionByIdV1Request> validator,
         ILogger<GetPromotionsByIdV1Controller> logger)
         : base(logger)
     {
         _handler = handler;
+        _validator = validator;
     }
 
     /// <summary>
@@ -37,7 +44,7 @@ public class GetPromotionsByIdV1Controller : FeatureControllerBase
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
     /// <returns>An <see cref="IActionResult"/> containing the promotions response or an error.</returns>
     [MapToApiVersion(1.0)]
-    [HttpGet("by-id/{promotionId}")]
+    [HttpGet("by-id")]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -46,7 +53,14 @@ public class GetPromotionsByIdV1Controller : FeatureControllerBase
         [Required] Guid promotionId,
         CancellationToken cancellationToken)
     {
-        var response = await _handler.HandleAsync(new PromotionByIdV1Request(promotionId));
+        var request = new PromotionByIdV1Request(promotionId);
+
+        if (await _validator.ExecuteValidateAsync(request, cancellationToken) is List<Error> errorsList)
+        {
+            return Problem(errorsList);
+        }
+
+        var response = await _handler.HandleAsync(request);
 
         return response.Match(
                 promotion => Ok(promotion),
