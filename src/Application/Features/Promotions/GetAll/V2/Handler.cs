@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ErrorOr;
-using PromotionEngine.Application.Features.Promotions.GetAll.V2.Repositories;
 using PromotionEngine.Application.Shared.Interfaces;
 using PromotionEngine.Entities;
 
@@ -13,7 +12,7 @@ internal sealed class PromotionsV2Handler : IHandler<PromotionsV2Request, Promot
 {
     private readonly IMapper _mapper;
     private readonly ILogger<PromotionsV2Handler> _logger;
-    private readonly IPromotionsV2Repository _repository;
+    private readonly IPromotionsRepository _repository;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PromotionsV2Handler"/> class.
@@ -21,7 +20,7 @@ internal sealed class PromotionsV2Handler : IHandler<PromotionsV2Request, Promot
     /// <param name="mapper">The mapper to convert between domain models and response models.</param>
     /// <param name="logger">The logger for logging information and errors.</param>
     /// <param name="repository">The repository to access promotion data.</param>
-    public PromotionsV2Handler(IMapper mapper, ILogger<PromotionsV2Handler> logger, IPromotionsV2Repository repository)
+    public PromotionsV2Handler(IMapper mapper, ILogger<PromotionsV2Handler> logger, IPromotionsRepository repository)
     {
         _mapper = mapper;
         _logger = logger;

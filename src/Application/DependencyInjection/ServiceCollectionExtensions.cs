@@ -2,17 +2,14 @@
 using Microsoft.Extensions.DependencyInjection;
 using PromotionEngine.Application.Features.Promotions.GetAll.V1;
 using PromotionEngine.Application.Features.Promotions.GetAll.V1.Mappers;
-using PromotionEngine.Application.Features.Promotions.GetAll.V1.Repositories;
-using PromotionEngine.Application.Features.Promotions.GetAll.V1.Validators;
 using PromotionEngine.Application.Features.Promotions.GetAll.V2;
 using PromotionEngine.Application.Features.Promotions.GetAll.V2.Mappers;
-using PromotionEngine.Application.Features.Promotions.GetAll.V2.Repositories;
 using PromotionEngine.Application.Features.Promotions.GetById.V1;
 using PromotionEngine.Application.Features.Promotions.GetById.V1.Mappers;
-using PromotionEngine.Application.Features.Promotions.GetById.V1.Repositories;
 using PromotionEngine.Application.Shared;
 using PromotionEngine.Application.Shared.Interfaces;
 using PromotionEngine.Application.Shared.Mappers;
+using PromotionEngine.Application.Shared.Repositories;
 using PromotionEngine.Application.Shared.Services;
 
 namespace PromotionEngine.Application.DependencyInjection;
@@ -68,9 +65,7 @@ public static class ServiceCollectionExtensions
     /// <returns>The updated service collection.</returns>
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IPromotionsV1Repository, PromotionsV1Repository>();
-        services.AddScoped<IPromotionsV2Repository, PromotionsV2Repository>();
-        services.AddScoped<IGetPromotionV1Repository, GetPromotionV1Repository>();
+        services.AddScoped<IPromotionsRepository, PromotionsRepository>();
         return services;
     }
 
@@ -105,7 +100,7 @@ public static class ServiceCollectionExtensions
     }
 
     /// <summary>
-    /// Registers all validators from the assembly referenced by <see cref="ApplicationAssemblyReference.Assembly"/> 
+    /// Registers all validators from the assembly referenced by <see cref="ApplicationAssemblyReference.Assembly"/>
     /// with the specified <see cref="IServiceCollection"/>.
     /// </summary>
     /// <param name="services">The <see cref="IServiceCollection"/> to which the validators will be added.</param>
