@@ -1,6 +1,7 @@
 ﻿using Asp.Versioning;
 using ErrorOr;
 using FluentValidation;
+using PromotionEngine.Application.DependencyInjection;
 using PromotionEngine.Application.Features.Promotions.GetById.V1;
 using PromotionEngine.Application.Shared.Abstracts;
 using PromotionEngine.Application.Shared.Interfaces;
@@ -55,14 +56,9 @@ public class GetAllsPromotionsV1Controller : FeatureControllerBase
     {
         var request = new PromotionsV1Request(countryCode, languageCode);
 
-        var validationResult = await _validator.ValidateAsync(request, cancellationToken);
-        if (!validationResult.IsValid)
+        if (await _validator.ExecuteValidateAsync(request, cancellationToken) is List<Error> errorsList)
         {
-            var errors = validationResult.Errors
-                                         .ConvertAll(validationFailure => Error.Validation(
-                                                validationFailure.PropertyName,
-                                                validationFailure.ErrorMessage));
-            return Problem(errors);
+            return Problem(errorsList);
         }
 
         var response = await _handler!.HandleAsync(request, cancellationToken);
