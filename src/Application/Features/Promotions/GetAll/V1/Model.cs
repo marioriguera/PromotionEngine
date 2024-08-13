@@ -13,8 +13,8 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 /// <param name="Images">A list of image URLs associated with the promotion.</param>
 /// <param name="Discounts">A list of discounts available in the promotion.</param>
 public record PromotionV1Model(
-        [Required] Guid PromotionId,
-        [Required] DateTime EndValidityDate,
+        Guid PromotionId,
+        DateTime EndValidityDate,
         PromotionTextsModel? Texts,
         List<string> Images,
         List<DiscountModel>? Discounts)

@@ -12,6 +12,6 @@ public interface IGetPromotionV1Repository
     /// </summary>
     /// <param name="id">The identifier of the promotion to retrieve.</param>
     /// <param name="cancellationToken">The cancellation token to observe while waiting for the task to complete.</param>
-    /// <returns>A <see cref="Task{Promotion?}"/> representing the asynchronous operation. The task result contains the promotion if found; otherwise, <c>null</c>.</returns>
+    /// <returns>A <see cref="Task{Promotion}"/>? representing the asynchronous operation. The task result contains the promotion if found; otherwise, <c>null</c>.</returns>
     Task<Promotion?> GetPromotionByIdAsync(Guid id, CancellationToken cancellationToken);
 }

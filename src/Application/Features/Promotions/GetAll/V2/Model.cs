@@ -14,9 +14,9 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V2;
 /// <param name="Images">A list of image URLs associated with the promotion.</param>
 /// <param name="Discounts">A list of discounts applied in the promotion.</param>
 public record GetAllPromotionsV2Model(
-        [Required] Guid PromotionId,
-        [Required] string Status,
-        [Required] DateTime CreatedDate,
+        Guid PromotionId,
+        string Status,
+        DateTime CreatedDate,
         DateTime EndValidityDate,
         PromotionTextsModel? Texts,
         List<string> Images,

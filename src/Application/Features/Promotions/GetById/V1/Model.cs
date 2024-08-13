@@ -13,9 +13,9 @@ namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 /// <param name="EndValidityDate">The date when the promotion ends or becomes invalid.</param>
 /// <param name="Images">A list of image URLs associated with the promotion.</param>
 public record PromotionByIdV1Model(
-    [Required] Guid PromotionId,
-    [Required] PromotionStatus Status,
-    [Required] DateTime CreatedDate,
-    [Required] DateTime LastModifiedDate,
+    Guid PromotionId,
+    PromotionStatus Status,
+    DateTime CreatedDate,
+    DateTime LastModifiedDate,
     DateTime EndValidityDate,
     List<string> Images);
