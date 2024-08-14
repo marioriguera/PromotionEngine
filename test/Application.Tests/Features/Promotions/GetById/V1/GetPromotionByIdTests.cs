@@ -41,6 +41,11 @@ public class GetPromotionByIdV1Tests
         Assert.Equal(2, response.promotion.Images.Count);
         Assert.Contains("Image9", response.promotion.Images);
         Assert.Contains("Image10", response.promotion.Images);
+        Assert.Equal("Caribbean Getaway", response.promotion.Texts!.Description);
+        Assert.Equal("20% off on all travel packages", response.promotion.Texts!.DiscountDescription);
+        Assert.Equal("Cuba Discount", response.promotion.Texts!.DiscountTitle);
+        Assert.Equal("Escape to Cuba", response.promotion.Texts!.Title);
+        Assert.Equal(2, response.promotion.Discounts!.Count);
     }
 
     /// <summary>
@@ -74,7 +79,7 @@ public class GetPromotionByIdV1Tests
 
         Assert.Null(result.StatusCode);
         Assert.Single(response.Errors!);
-        Assert.True(response.Errors!.Keys.Contains("PromotionId"));
+        Assert.True(response.Errors!.ContainsKey("PromotionId"));
         Assert.Contains("The promotion id cannot be empty.", response.Errors["PromotionId"]);
         Assert.Contains("The GUID is not allowed. GUID: 00000000-0000-0000-0000-000000000000 .", response.Errors["PromotionId"]);
     }

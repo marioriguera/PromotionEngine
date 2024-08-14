@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using PromotionEngine.Application.Shared.Abstracts;
 using PromotionEngine.Entities;
 
 namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
@@ -11,11 +12,16 @@ namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 /// <param name="CreatedDate">The date when the promotion was created.</param>
 /// <param name="LastModifiedDate">The date when the promotion was last modified.</param>
 /// <param name="EndValidityDate">The date when the promotion ends or becomes invalid.</param>
+/// <param name="Texts">The textual content related to the promotion.</param>
 /// <param name="Images">A list of image URLs associated with the promotion.</param>
+/// <param name="Discounts">A list of discounts available in the promotion.</param>
 public record PromotionByIdV1Model(
-    Guid PromotionId,
-    PromotionStatus Status, // ToDo: arreglar esto, porque usa una clase de la capa de entidades.
-    DateTime CreatedDate,
-    DateTime LastModifiedDate,
-    DateTime EndValidityDate,
-    List<string> Images);
+        Guid PromotionId,
+        string Status,
+        DateTime CreatedDate,
+        DateTime LastModifiedDate,
+        DateTime EndValidityDate,
+        PromotionTextsModel? Texts,
+        List<string> Images,
+        List<DiscountModel>? Discounts)
+    : PromotionBaseModel(PromotionId, EndValidityDate, Texts, Images, Discounts);

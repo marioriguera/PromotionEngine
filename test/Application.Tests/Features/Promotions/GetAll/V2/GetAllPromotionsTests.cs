@@ -54,13 +54,13 @@ public class GetAllPromotionsV2Tests
 
         Assert.Null(result.StatusCode);
         Assert.Equal(3, response.Errors!.Count);
-        Assert.True(response.Errors!.Keys.Contains("CountryCode"));
+        Assert.True(response.Errors!.ContainsKey("CountryCode"));
         Assert.Contains("The country code must have a minimum of 2 characters and a maximum of 3.", response.Errors["CountryCode"]);
         Assert.Contains("The country code must not contain numeric characters.", response.Errors["CountryCode"]);
-        Assert.True(response.Errors!.Keys.Contains("LanguageCode"));
+        Assert.True(response.Errors!.ContainsKey("LanguageCode"));
         Assert.Contains("The language code must have a minimum of 2 characters and a maximum of 3.", response.Errors["LanguageCode"]);
         Assert.Contains("The language code must not contain numeric characters.", response.Errors["LanguageCode"]);
-        Assert.True(response.Errors!.Keys.Contains("MaxPromotions"));
+        Assert.True(response.Errors!.ContainsKey("MaxPromotions"));
         Assert.Contains("You can apply for a maximum of 50 promotions.", response.Errors["MaxPromotions"]);
     }
 
@@ -80,13 +80,13 @@ public class GetAllPromotionsV2Tests
 
         Assert.Null(result.StatusCode);
         Assert.Equal(3, response.Errors!.Count);
-        Assert.True(response.Errors!.Keys.Contains("CountryCode"));
+        Assert.True(response.Errors!.ContainsKey("CountryCode"));
         Assert.Contains("The country code must have a minimum of 2 characters and a maximum of 3.", response.Errors["CountryCode"]);
         Assert.Contains("The country code must not contain numeric characters.", response.Errors["CountryCode"]);
-        Assert.True(response.Errors!.Keys.Contains("LanguageCode"));
+        Assert.True(response.Errors!.ContainsKey("LanguageCode"));
         Assert.Contains("The language code must have a minimum of 2 characters and a maximum of 3.", response.Errors["LanguageCode"]);
         Assert.Contains("The language code must not contain numeric characters.", response.Errors["LanguageCode"]);
-        Assert.True(response.Errors!.Keys.Contains("MaxPromotions"));
+        Assert.True(response.Errors!.ContainsKey("MaxPromotions"));
         Assert.Contains("You must apply for at least one promotion.", response.Errors["MaxPromotions"]);
     }
 
@@ -106,7 +106,7 @@ public class GetAllPromotionsV2Tests
 
         Assert.Null(result.StatusCode);
         Assert.Single(response.Errors!);
-        Assert.True(response.Errors!.Keys.Contains("MaxPromotions"));
+        Assert.True(response.Errors!.ContainsKey("MaxPromotions"));
         Assert.Contains("You can apply for a maximum of 50 promotions.", response.Errors["MaxPromotions"]);
     }
 
@@ -126,7 +126,7 @@ public class GetAllPromotionsV2Tests
 
         Assert.Null(result.StatusCode);
         Assert.Single(response.Errors!);
-        Assert.True(response.Errors!.Keys.Contains("MaxPromotions"));
+        Assert.True(response.Errors!.ContainsKey("MaxPromotions"));
         Assert.Contains("You must apply for at least one promotion.", response.Errors["MaxPromotions"]);
     }
 
@@ -146,7 +146,7 @@ public class GetAllPromotionsV2Tests
 
         Assert.Null(result.StatusCode);
         Assert.Single(response.Errors!);
-        Assert.True(response.Errors!.Keys.Contains("LanguageCode"));
+        Assert.True(response.Errors!.ContainsKey("LanguageCode"));
         Assert.Contains("The language code must have a minimum of 2 characters and a maximum of 3.", response.Errors["LanguageCode"]);
         Assert.Contains("The language code must not contain numeric characters.", response.Errors["LanguageCode"]);
     }

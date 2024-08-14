@@ -60,7 +60,7 @@ public class GetPromotionsByIdV1Controller : FeatureControllerBase
             return Problem(errorsList);
         }
 
-        var response = await _handler.HandleAsync(request);
+        var response = await _handler.HandleAsync(request, cancellationToken);
 
         return response.Match(
                 promotion => Ok(promotion),

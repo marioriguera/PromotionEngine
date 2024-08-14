@@ -16,6 +16,7 @@ internal sealed class PromotionsV1MappingProfile : Profile
     /// </summary>
     public PromotionsV1MappingProfile()
     {
+        // ToDo: se puede refactorizar el map de PromotionTextsModel y List<DiscountModel>. se repite en varios sitios
         CreateMap<Promotion, PromotionV1Model>()
                 .ConvertUsing((src, dest, context) => new PromotionV1Model(
                     src.Id,
