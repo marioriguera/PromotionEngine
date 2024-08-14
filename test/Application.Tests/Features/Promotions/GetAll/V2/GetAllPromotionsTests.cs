@@ -32,7 +32,7 @@ public class GetAllPromotionsV2Tests
         var controller = _serviceProvider.GetService<GetAllPromotionsV2Controller>();
 
         OkObjectResult result = (OkObjectResult)await controller!.GetAllPromotionsV2Async("DE", "DE", 4, default);
-        PromotionsV2Response response = (PromotionsV2Response)result.Value!;
+        GetAllPromotionsV2Response response = (GetAllPromotionsV2Response)result.Value!;
 
         Assert.Equal(200, result.StatusCode);
         Assert.Equal(3, response.CountPromotions);

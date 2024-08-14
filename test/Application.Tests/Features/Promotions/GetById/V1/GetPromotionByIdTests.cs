@@ -30,7 +30,7 @@ public class GetPromotionByIdV1Tests
         var controller = _serviceProvider.GetService<GetPromotionByIdV1Controller>();
 
         OkObjectResult result = (OkObjectResult)await controller!.GetPromotionByIdAsync(new Guid("684d2064-916f-41bb-8ff9-23c83c7f9282"), default);
-        PromotionByIdV1Response response = (PromotionByIdV1Response)result.Value!;
+        GetPromotionByIdV1Response response = (GetPromotionByIdV1Response)result.Value!;
 
         Assert.Equal(200, result.StatusCode);
         Assert.Equal(new Guid("684d2064-916f-41bb-8ff9-23c83c7f9282"), response.promotion.PromotionId);

@@ -17,7 +17,7 @@ namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 [ControllerName("Get promotion by id.")]
 public class GetPromotionByIdV1Controller : FeatureControllerBase
 {
-    private readonly IHandler<GetPromotionByIdV1Request, PromotionByIdV1Response> _handler;
+    private readonly IHandler<GetPromotionByIdV1Request, GetPromotionByIdV1Response> _handler;
     private readonly IValidator<GetPromotionByIdV1Request> _validator;
 
     /// <summary>
@@ -27,7 +27,7 @@ public class GetPromotionByIdV1Controller : FeatureControllerBase
     /// <param name="validator">The validator for <see cref="GetPromotionByIdV1Request"/>.</param>
     /// <param name="logger">The logger instance for logging.</param>
     public GetPromotionByIdV1Controller(
-        IHandler<GetPromotionByIdV1Request, PromotionByIdV1Response> handler,
+        IHandler<GetPromotionByIdV1Request, GetPromotionByIdV1Response> handler,
         IValidator<GetPromotionByIdV1Request> validator,
         ILogger<GetPromotionByIdV1Controller> logger)
         : base(logger)

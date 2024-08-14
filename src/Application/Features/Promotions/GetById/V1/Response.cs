@@ -6,4 +6,4 @@ namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 /// Represents the response for getting a promotion by its identifier.
 /// </summary>
 /// <param name="promotion">The promotion details.</param>
-public record PromotionByIdV1Response(GetPromotionByIdV1Model promotion);
+public record GetPromotionByIdV1Response(GetPromotionByIdV1Model promotion);

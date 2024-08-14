@@ -16,7 +16,7 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V2;
 [ControllerName("Get alls promotions.")]
 public class GetAllPromotionsV2Controller : FeatureControllerBase
 {
-    private readonly IHandler<GetAllPromotionsV2Request, PromotionsV2Response> _handler;
+    private readonly IHandler<GetAllPromotionsV2Request, GetAllPromotionsV2Response> _handler;
     private readonly IValidator<GetAllPromotionsV2Request> _validator;
 
     /// <summary>
@@ -26,7 +26,7 @@ public class GetAllPromotionsV2Controller : FeatureControllerBase
     /// <param name="validator">The validator used to validate promotion request data.</param>
     /// <param name="logger">The logger instance used for logging information and errors.</param>
     public GetAllPromotionsV2Controller(
-            IHandler<GetAllPromotionsV2Request, PromotionsV2Response> handler,
+            IHandler<GetAllPromotionsV2Request, GetAllPromotionsV2Response> handler,
             IValidator<GetAllPromotionsV2Request> validator,
             ILogger<GetAllPromotionsV2Controller> logger)
         : base(logger)
@@ -47,7 +47,7 @@ public class GetAllPromotionsV2Controller : FeatureControllerBase
     [MapToApiVersion(2.0)]
     [HttpGet("{countryCode}/all")]
     [Produces("application/json")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PromotionsV2Response))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetAllPromotionsV2Response))]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [SwaggerOperation(OperationId = "PromotionsList", Description = "Get Promotions")]
     public async Task<IActionResult> GetAllPromotionsV2Async(

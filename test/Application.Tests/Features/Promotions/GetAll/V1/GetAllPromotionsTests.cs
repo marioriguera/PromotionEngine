@@ -34,7 +34,7 @@ public class GetAllPromotionsV1Tests
         var controller = _serviceProvider.GetService<GetAllPromotionsV1Controller>();
 
         OkObjectResult result = (OkObjectResult)await controller!.GetAllPromotionsAsync("ES", "ES", default);
-        PromotionsV1Response response = (PromotionsV1Response)result.Value!;
+        GetAllPromotionsV1Response response = (GetAllPromotionsV1Response)result.Value!;
 
         Assert.Equal(200, result.StatusCode);
         Assert.Single(response.Promotions!.ToList());
@@ -52,7 +52,7 @@ public class GetAllPromotionsV1Tests
         var controller = _serviceProvider.GetService<GetAllPromotionsV1Controller>();
 
         OkObjectResult result = (OkObjectResult)await controller!.GetAllPromotionsAsync("DE", "DE", default);
-        PromotionsV1Response response = (PromotionsV1Response)result.Value!;
+        GetAllPromotionsV1Response response = (GetAllPromotionsV1Response)result.Value!;
 
         Assert.Equal(200, result.StatusCode);
         Assert.Equal(3, response.Promotions!.ToList().Count);

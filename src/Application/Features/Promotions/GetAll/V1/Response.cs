@@ -6,5 +6,5 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 /// Response for the version 1 of promotions, containing a collection of promotion models.
 /// </summary>
 /// <param name="Promotions">The collection of promotions returned in the response.</param>
-public record PromotionsV1Response(IEnumerable<PromotionV1Model>? Promotions)
+public record GetAllPromotionsV1Response(IEnumerable<PromotionV1Model>? Promotions)
     : PromotionBaseResponse<PromotionV1Model>(Promotions);
