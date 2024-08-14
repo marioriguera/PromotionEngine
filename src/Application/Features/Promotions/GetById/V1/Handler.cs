@@ -55,6 +55,6 @@ internal sealed class GetPromotionByIdV1Handler : IHandler<PromotionByIdV1Reques
             return Error.NotFound("Promotion.NotFound", message);
         }
 
-        return new PromotionByIdV1Response(_mapper.Map<PromotionByIdV1Model>(promotion));
+        return new PromotionByIdV1Response(_mapper.Map<GetPromotionByIdV1Model>(promotion));
     }
 }

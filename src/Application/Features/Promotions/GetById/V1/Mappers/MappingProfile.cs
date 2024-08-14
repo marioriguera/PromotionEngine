@@ -11,12 +11,12 @@ internal sealed class PromotionByIdV1MappingProfile : Profile
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="PromotionByIdV1MappingProfile"/> class.
-    /// Configures mappings between <see cref="Promotion"/> and <see cref="PromotionByIdV1Model"/> using AutoMapper.
+    /// Configures mappings between <see cref="Promotion"/> and <see cref="GetPromotionByIdV1Model"/> using AutoMapper.
     /// </summary>
     public PromotionByIdV1MappingProfile()
     {
-        CreateMap<Promotion, PromotionByIdV1Model>()
-            .ConvertUsing((src, dest, context) => new PromotionByIdV1Model(
+        CreateMap<Promotion, GetPromotionByIdV1Model>()
+            .ConvertUsing((src, dest, context) => new GetPromotionByIdV1Model(
                     src.Id,
                     src.Status.ToString(),
                     src.CreatedDate,

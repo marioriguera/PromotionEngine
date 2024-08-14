@@ -23,7 +23,7 @@ public class GetAllPromotionsV1Controller : FeatureControllerBase
     /// Initializes a new instance of the <see cref="GetAllPromotionsV1Controller"/> class.
     /// </summary>
     /// <param name="handler">The handler for processing <see cref="PromotionsV1Request"/> and returning <see cref="PromotionsV1Response"/>.</param>
-    /// <param name="validator">The validator for <see cref="PromotionByIdV1Model"/>.</param>
+    /// <param name="validator">The validator for <see cref="GetPromotionByIdV1Model"/>.</param>
     /// <param name="logger">The logger instance for logging messages.</param>
     public GetAllPromotionsV1Controller(
         IHandler<PromotionsV1Request, PromotionsV1Response> handler,

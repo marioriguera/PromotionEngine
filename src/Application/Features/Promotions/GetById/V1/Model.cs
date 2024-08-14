@@ -15,7 +15,7 @@ namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 /// <param name="Texts">The textual content related to the promotion.</param>
 /// <param name="Images">A list of image URLs associated with the promotion.</param>
 /// <param name="Discounts">A list of discounts available in the promotion.</param>
-public record PromotionByIdV1Model(
+public record GetPromotionByIdV1Model(
         Guid PromotionId,
         string Status,
         DateTime CreatedDate,
