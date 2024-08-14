@@ -15,7 +15,6 @@ internal sealed class PromotionByIdV1MappingProfile : Profile
     /// </summary>
     public PromotionByIdV1MappingProfile()
     {
-        // ToDo: se puede refactorizar el map de PromotionTextsModel y List<DiscountModel>. se repite en varios sitios
         CreateMap<Promotion, PromotionByIdV1Model>()
             .ConvertUsing((src, dest, context) => new PromotionByIdV1Model(
                     src.Id,
@@ -23,12 +22,12 @@ internal sealed class PromotionByIdV1MappingProfile : Profile
                     src.CreatedDate,
                     src.LastModifiedDate,
                     src.EndValidityDate,
-                    src.DisplayContent != null
+                    src.DisplayContent != null && src.DisplayContent.TryGetValue(src.CountryCode, out var content)
                             ? new PromotionTextsModel(
-                                 src.DisplayContent.TryGetValue(src.CountryCode, out var titleContent) ? titleContent.Title : null,
-                                 src.DisplayContent.TryGetValue(src.CountryCode, out var descriptionContent) ? descriptionContent.Description : null,
-                                 src.DisplayContent.TryGetValue(src.CountryCode, out var discountTitleContent) ? discountTitleContent.DiscountTitle : null,
-                                 src.DisplayContent.TryGetValue(src.CountryCode, out var discountDescriptionContent) ? discountDescriptionContent.DiscountDescription : null)
+                                content.Title,
+                                content.Description,
+                                content.DiscountTitle,
+                                content.DiscountDescription)
                             : null,
                     src.Images,
                     src.Discounts != null
