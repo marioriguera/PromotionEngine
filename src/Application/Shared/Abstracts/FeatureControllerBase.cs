@@ -11,18 +11,10 @@ namespace PromotionEngine.Application.Shared.Abstracts;
 public abstract class FeatureControllerBase : ControllerBase
 {
     /// <summary>
-    /// The logger instance used for logging errors and other information.
-    /// </summary>
-    private readonly ILogger _logger;
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="FeatureControllerBase"/> class.
     /// </summary>
-    /// <param name="logger">The logger instance used for logging errors and other information.</param>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="logger"/> is null.</exception>
-    public FeatureControllerBase(ILogger logger)
+    public FeatureControllerBase()
     {
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     /// <summary>

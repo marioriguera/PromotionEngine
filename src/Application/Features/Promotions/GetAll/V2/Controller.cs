@@ -29,7 +29,7 @@ public class GetAllPromotionsV2Controller : FeatureControllerBase
             IHandler<GetAllPromotionsV2Request, GetAllPromotionsV2Response> handler,
             IValidator<GetAllPromotionsV2Request> validator,
             ILogger<GetAllPromotionsV2Controller> logger)
-        : base(logger)
+        : base()
     {
         _handler = handler;
         _validator = validator;

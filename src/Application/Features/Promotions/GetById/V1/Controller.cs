@@ -30,7 +30,7 @@ public class GetPromotionByIdV1Controller : FeatureControllerBase
         IHandler<GetPromotionByIdV1Request, GetPromotionByIdV1Response> handler,
         IValidator<GetPromotionByIdV1Request> validator,
         ILogger<GetPromotionByIdV1Controller> logger)
-        : base(logger)
+        : base()
     {
         _handler = handler;
         _validator = validator;
