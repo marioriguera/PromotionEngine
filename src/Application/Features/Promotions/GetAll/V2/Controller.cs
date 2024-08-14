@@ -16,8 +16,8 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V2;
 [ControllerName("Get alls promotions.")]
 public class GetAllPromotionsV2Controller : FeatureControllerBase
 {
-    private readonly IHandler<PromotionsV2Request, PromotionsV2Response> _handler;
-    private readonly IValidator<PromotionsV2Request> _validator;
+    private readonly IHandler<GetAllPromotionsV2Request, PromotionsV2Response> _handler;
+    private readonly IValidator<GetAllPromotionsV2Request> _validator;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GetAllPromotionsV2Controller"/> class.
@@ -26,8 +26,8 @@ public class GetAllPromotionsV2Controller : FeatureControllerBase
     /// <param name="validator">The validator used to validate promotion request data.</param>
     /// <param name="logger">The logger instance used for logging information and errors.</param>
     public GetAllPromotionsV2Controller(
-            IHandler<PromotionsV2Request, PromotionsV2Response> handler,
-            IValidator<PromotionsV2Request> validator,
+            IHandler<GetAllPromotionsV2Request, PromotionsV2Response> handler,
+            IValidator<GetAllPromotionsV2Request> validator,
             ILogger<GetAllPromotionsV2Controller> logger)
         : base(logger)
     {
@@ -56,7 +56,7 @@ public class GetAllPromotionsV2Controller : FeatureControllerBase
         int maxPromotions,
         CancellationToken cancellationToken)
     {
-        var request = new PromotionsV2Request(countryCode, languageCode, maxPromotions);
+        var request = new GetAllPromotionsV2Request(countryCode, languageCode, maxPromotions);
 
         if (await _validator.ExecuteValidateAsync(request, cancellationToken) is List<Error> errorsList)
         {

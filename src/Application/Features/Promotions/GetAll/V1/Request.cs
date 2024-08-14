@@ -8,5 +8,5 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 /// </summary>
 /// <param name="CountryCode">The country code for filtering promotions.</param>
 /// <param name="LanguageCode">The language code for localization of promotion content.</param>
-public record PromotionsV1Request(string CountryCode, string LanguageCode)
+public record GetAllPromotionsV1Request(string CountryCode, string LanguageCode)
     : PromotionBaseRequest(CountryCode, LanguageCode);

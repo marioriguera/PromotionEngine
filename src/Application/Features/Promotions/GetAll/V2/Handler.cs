@@ -8,7 +8,7 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V2;
 /// <summary>
 /// Handler for processing version 2 promotion requests.
 /// </summary>
-internal sealed class GetAllPromotionsV2Handler : IHandler<PromotionsV2Request, PromotionsV2Response>
+internal sealed class GetAllPromotionsV2Handler : IHandler<GetAllPromotionsV2Request, PromotionsV2Response>
 {
     private readonly IMapper _mapper;
     private readonly ILogger<GetAllPromotionsV2Handler> _logger;
@@ -33,7 +33,7 @@ internal sealed class GetAllPromotionsV2Handler : IHandler<PromotionsV2Request, 
     /// <param name="request">The request containing the parameters for fetching promotions.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>A task that represents the asynchronous operation, with a result of <see cref="ErrorOr{PromotionsV2Response}"/> containing the response or an error.</returns>
-    public async Task<ErrorOr<PromotionsV2Response>> HandleAsync(PromotionsV2Request request, CancellationToken cancellationToken = default)
+    public async Task<ErrorOr<PromotionsV2Response>> HandleAsync(GetAllPromotionsV2Request request, CancellationToken cancellationToken = default)
     {
         // Retrieve promotions based on the request parameters
         IEnumerable<Promotion> promotions = await _repository.GetAll(request.CountryCode, request.LanguageCode, request.MaxPromotions, cancellationToken)

@@ -93,9 +93,9 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddHandlers(this IServiceCollection services)
     {
         // Register the handler for processing promotion requests
-        services.AddTransient<IHandler<PromotionsV1Request, PromotionsV1Response>, GetAllPromotionsV1Handler>();
-        services.AddTransient<IHandler<PromotionsV2Request, PromotionsV2Response>, GetAllPromotionsV2Handler>();
-        services.AddTransient<IHandler<PromotionByIdV1Request, PromotionByIdV1Response>, GetPromotionByIdV1Handler>();
+        services.AddTransient<IHandler<GetAllPromotionsV1Request, PromotionsV1Response>, GetAllPromotionsV1Handler>();
+        services.AddTransient<IHandler<GetAllPromotionsV2Request, PromotionsV2Response>, GetAllPromotionsV2Handler>();
+        services.AddTransient<IHandler<GetPromotionByIdV1Request, PromotionByIdV1Response>, GetPromotionByIdV1Handler>();
         return services;
     }
 

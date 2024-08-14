@@ -17,18 +17,18 @@ namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 [ControllerName("Get promotion by id.")]
 public class GetPromotionByIdV1Controller : FeatureControllerBase
 {
-    private readonly IHandler<PromotionByIdV1Request, PromotionByIdV1Response> _handler;
-    private readonly IValidator<PromotionByIdV1Request> _validator;
+    private readonly IHandler<GetPromotionByIdV1Request, PromotionByIdV1Response> _handler;
+    private readonly IValidator<GetPromotionByIdV1Request> _validator;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GetPromotionByIdV1Controller"/> class.
     /// </summary>
     /// <param name="handler">The handler to process promotion requests.</param>
-    /// <param name="validator">The validator for <see cref="PromotionByIdV1Request"/>.</param>
+    /// <param name="validator">The validator for <see cref="GetPromotionByIdV1Request"/>.</param>
     /// <param name="logger">The logger instance for logging.</param>
     public GetPromotionByIdV1Controller(
-        IHandler<PromotionByIdV1Request, PromotionByIdV1Response> handler,
-        IValidator<PromotionByIdV1Request> validator,
+        IHandler<GetPromotionByIdV1Request, PromotionByIdV1Response> handler,
+        IValidator<GetPromotionByIdV1Request> validator,
         ILogger<GetPromotionByIdV1Controller> logger)
         : base(logger)
     {
@@ -53,7 +53,7 @@ public class GetPromotionByIdV1Controller : FeatureControllerBase
         [Required] Guid promotionId,
         CancellationToken cancellationToken)
     {
-        var request = new PromotionByIdV1Request(promotionId);
+        var request = new GetPromotionByIdV1Request(promotionId);
 
         if (await _validator.ExecuteValidateAsync(request, cancellationToken) is List<Error> errorsList)
         {

@@ -8,7 +8,7 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 /// <summary>
 /// Handles the request for fetching promotions based on the provided country and language codes.
 /// </summary>
-internal sealed class GetAllPromotionsV1Handler : IHandler<PromotionsV1Request, PromotionsV1Response>
+internal sealed class GetAllPromotionsV1Handler : IHandler<GetAllPromotionsV1Request, PromotionsV1Response>
 {
     private readonly IMapper _mapper;
     private readonly ILogger<GetAllPromotionsV1Handler> _logger;
@@ -33,7 +33,7 @@ internal sealed class GetAllPromotionsV1Handler : IHandler<PromotionsV1Request, 
     /// <param name="request">The request containing country and language codes.</param>
     /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
     /// <returns>The response containing the list of promotions or an exception if one occurred.</returns>
-    public async Task<ErrorOr<PromotionsV1Response>> HandleAsync(PromotionsV1Request request, CancellationToken cancellationToken = default)
+    public async Task<ErrorOr<PromotionsV1Response>> HandleAsync(GetAllPromotionsV1Request request, CancellationToken cancellationToken = default)
     {
         /*
          * If it is not necessary to handle exceptions unless it is a system

@@ -5,14 +5,14 @@ using PromotionEngine.Application.Features.Promotions.GetAll.V1;
 namespace PromotionEngine.Application.Features.Promotions.GetAll.V2.Validators;
 
 /// <summary>
-/// Validator for <see cref="PromotionsV2Request"/> to ensure that its properties meet the required validation rules.
+/// Validator for <see cref="GetAllPromotionsV2Request"/> to ensure that its properties meet the required validation rules.
 /// </summary>
 /// <remarks>
 /// This class inherits from <see cref="AbstractValidator{T}"/> and defines validation rules for the properties of
-/// <see cref="PromotionsV2Request"/>. It ensures that the country code and language code are properly formatted and
+/// <see cref="GetAllPromotionsV2Request"/>. It ensures that the country code and language code are properly formatted and
 /// within acceptable length ranges, and that the number of promotions requested is within specified limits.
 /// </remarks>
-public sealed class AllPromotionsV2RequestValidator : AbstractValidator<PromotionsV2Request>
+public sealed class AllPromotionsV2RequestValidator : AbstractValidator<GetAllPromotionsV2Request>
 {
     private readonly int _minCountryLanguageCodeLength = 2;
     private readonly int _maxCountryLanguageCodeLength = 3;
@@ -22,7 +22,7 @@ public sealed class AllPromotionsV2RequestValidator : AbstractValidator<Promotio
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AllPromotionsV2RequestValidator"/> class.
-    /// Defines validation rules for the properties of <see cref="PromotionsV2Request"/>.
+    /// Defines validation rules for the properties of <see cref="GetAllPromotionsV2Request"/>.
     /// </summary>
     public AllPromotionsV2RequestValidator()
     {

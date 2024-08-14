@@ -10,11 +10,11 @@ namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 /// </summary>
 /// <remarks>
 /// This class implements the <see cref="IHandler{TRequest, TResponse}"/> interface to handle
-/// <see cref="PromotionByIdV1Request"/> requests and return <see cref="PromotionByIdV1Response"/> responses.
+/// <see cref="GetPromotionByIdV1Request"/> requests and return <see cref="PromotionByIdV1Response"/> responses.
 /// It uses an <see cref="IMapper"/> for mapping data and an <see cref="IPromotionsRepository"/>
 /// for data retrieval. Logging is done via <see cref="ILogger{T}"/>.
 /// </remarks>
-internal sealed class GetPromotionByIdV1Handler : IHandler<PromotionByIdV1Request, PromotionByIdV1Response>
+internal sealed class GetPromotionByIdV1Handler : IHandler<GetPromotionByIdV1Request, PromotionByIdV1Response>
 {
     private readonly IMapper _mapper;
     private readonly ILogger<GetPromotionByIdV1Handler> _logger;
@@ -42,7 +42,7 @@ internal sealed class GetPromotionByIdV1Handler : IHandler<PromotionByIdV1Reques
     /// A task representing the asynchronous operation. The task result is an <see cref="ErrorOr{T}"/>
     /// where <c>T</c> is <see cref="PromotionByIdV1Response"/> if the promotion is found, or an error if not.
     /// </returns>
-    public async Task<ErrorOr<PromotionByIdV1Response>> HandleAsync(PromotionByIdV1Request request, CancellationToken cancellationToken = default)
+    public async Task<ErrorOr<PromotionByIdV1Response>> HandleAsync(GetPromotionByIdV1Request request, CancellationToken cancellationToken = default)
     {
         Promotion? promotion = await _repository.GetPromotionByIdAsync(request.PromotionId, cancellationToken);
 

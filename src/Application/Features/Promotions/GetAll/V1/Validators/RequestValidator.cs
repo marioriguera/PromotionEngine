@@ -3,9 +3,9 @@
 namespace PromotionEngine.Application.Features.Promotions.GetAll.V1.Validators;
 
 /// <summary>
-/// Validator for the <see cref="PromotionsV1Request"/> class, ensuring that the request parameters are valid.
+/// Validator for the <see cref="GetAllPromotionsV1Request"/> class, ensuring that the request parameters are valid.
 /// </summary>
-public sealed class AllPromotionsV1RequestValidator : AbstractValidator<PromotionsV1Request>
+public sealed class AllPromotionsV1RequestValidator : AbstractValidator<GetAllPromotionsV1Request>
 {
     private readonly int _minCountryLanguageCodeLength = 2;
     private readonly int _maxCountryLanguageCodeLength = 3;
@@ -13,7 +13,7 @@ public sealed class AllPromotionsV1RequestValidator : AbstractValidator<Promotio
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AllPromotionsV1RequestValidator"/> class.
-    /// Defines validation rules for the properties of <see cref="PromotionsV1Request"/>.
+    /// Defines validation rules for the properties of <see cref="GetAllPromotionsV1Request"/>.
     /// </summary>
     public AllPromotionsV1RequestValidator()
     {

@@ -16,18 +16,18 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 [ControllerName("Get alls promotions.")]
 public class GetAllPromotionsV1Controller : FeatureControllerBase
 {
-    private readonly IHandler<PromotionsV1Request, PromotionsV1Response>? _handler;
-    private readonly IValidator<PromotionsV1Request> _validator;
+    private readonly IHandler<GetAllPromotionsV1Request, PromotionsV1Response>? _handler;
+    private readonly IValidator<GetAllPromotionsV1Request> _validator;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GetAllPromotionsV1Controller"/> class.
     /// </summary>
-    /// <param name="handler">The handler for processing <see cref="PromotionsV1Request"/> and returning <see cref="PromotionsV1Response"/>.</param>
+    /// <param name="handler">The handler for processing <see cref="GetAllPromotionsV1Request"/> and returning <see cref="PromotionsV1Response"/>.</param>
     /// <param name="validator">The validator for <see cref="GetPromotionByIdV1Model"/>.</param>
     /// <param name="logger">The logger instance for logging messages.</param>
     public GetAllPromotionsV1Controller(
-        IHandler<PromotionsV1Request, PromotionsV1Response> handler,
-        IValidator<PromotionsV1Request> validator,
+        IHandler<GetAllPromotionsV1Request, PromotionsV1Response> handler,
+        IValidator<GetAllPromotionsV1Request> validator,
         ILogger<GetAllPromotionsV1Controller> logger)
         : base(logger)
     {
@@ -54,7 +54,7 @@ public class GetAllPromotionsV1Controller : FeatureControllerBase
         string languageCode,
         CancellationToken cancellationToken)
     {
-        var request = new PromotionsV1Request(countryCode, languageCode);
+        var request = new GetAllPromotionsV1Request(countryCode, languageCode);
 
         if (await _validator.ExecuteValidateAsync(request, cancellationToken) is List<Error> errorsList)
         {
