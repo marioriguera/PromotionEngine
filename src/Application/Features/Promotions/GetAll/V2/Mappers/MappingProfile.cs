@@ -21,12 +21,12 @@ internal sealed class PromotionsV2MappingProfile : Profile
                     src.Status.ToString(),
                     src.CreatedDate,
                     src.EndValidityDate,
-                    src.DisplayContent != null
+                    src.DisplayContent != null && src.DisplayContent.TryGetValue(src.CountryCode, out var content)
                             ? new PromotionTextsModel(
-                                src.DisplayContent.TryGetValue(src.CountryCode, out var titleContent) ? titleContent.Title : null,
-                                src.DisplayContent.TryGetValue(src.CountryCode, out var descriptionContent) ? descriptionContent.Description : null,
-                                src.DisplayContent.TryGetValue(src.CountryCode, out var discountTitleContent) ? discountTitleContent.DiscountTitle : null,
-                                src.DisplayContent.TryGetValue(src.CountryCode, out var discountDescriptionContent) ? discountDescriptionContent.DiscountDescription : null)
+                                content.Title,
+                                content.Description,
+                                content.DiscountTitle,
+                                content.DiscountDescription)
                             : null,
                     src.Images,
                     src.Discounts != null ? context.Mapper.Map<List<DiscountModel>>(src.Discounts) : null));
