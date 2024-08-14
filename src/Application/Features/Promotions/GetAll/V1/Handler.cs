@@ -8,19 +8,19 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 /// <summary>
 /// Handles the request for fetching promotions based on the provided country and language codes.
 /// </summary>
-internal sealed class PromotionsV1Handler : IHandler<PromotionsV1Request, PromotionsV1Response>
+internal sealed class GetAllPromotionsV1Handler : IHandler<PromotionsV1Request, PromotionsV1Response>
 {
     private readonly IMapper _mapper;
-    private readonly ILogger<PromotionsV1Handler> _logger;
+    private readonly ILogger<GetAllPromotionsV1Handler> _logger;
     private readonly IPromotionsRepository _repository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PromotionsV1Handler"/> class.
+    /// Initializes a new instance of the <see cref="GetAllPromotionsV1Handler"/> class.
     /// </summary>
     /// <param name="mapper">The mapper to convert data models to response models.</param>
     /// <param name="logger">The logger used to record database connection activities and errors.</param>
     /// <param name="repository">The repository used to access promotion data.</param>
-    public PromotionsV1Handler(IMapper mapper, ILogger<PromotionsV1Handler> logger, IPromotionsRepository repository)
+    public GetAllPromotionsV1Handler(IMapper mapper, ILogger<GetAllPromotionsV1Handler> logger, IPromotionsRepository repository)
     {
         _mapper = mapper;
         _logger = logger;

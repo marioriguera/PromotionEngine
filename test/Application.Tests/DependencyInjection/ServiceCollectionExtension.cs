@@ -27,8 +27,8 @@ internal static class ServiceCollectionExtension
     /// <returns>The updated <see cref="IServiceCollection"/> with the registered controllers.</returns>
     public static IServiceCollection AddControllersToTest(this IServiceCollection services)
     {
-        services.AddSingleton<GetAllsPromotionsV1Controller>();
-        services.AddSingleton<GetAllsPromotionsV2Controller>();
+        services.AddSingleton<GetAllPromotionsV1Controller>();
+        services.AddSingleton<GetAllPromotionsV2Controller>();
         services.AddSingleton<GetPromotionByIdV1Controller>();
         return services;
     }

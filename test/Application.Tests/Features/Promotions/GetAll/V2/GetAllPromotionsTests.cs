@@ -1,11 +1,11 @@
 ﻿namespace PromotionEngine.Application.Features.Promotions.GetAll.V2;
 
 /// <summary>
-/// Contains unit tests for the <see cref="GetAllsPromotionsV2Controller"/> to verify its functionality.
+/// Contains unit tests for the <see cref="GetAllPromotionsV2Controller"/> to verify its functionality.
 /// </summary>
 /// <remarks>
 /// This class sets up a test environment by retrieving the service provider from a singleton instance of <see cref="ServicesRegisterToTests"/>.
-/// It includes tests to validate the behavior of the <see cref="GetAllsPromotionsV2Controller"/> controller.
+/// It includes tests to validate the behavior of the <see cref="GetAllPromotionsV2Controller"/> controller.
 /// </remarks>
 public class GetAllPromotionsV2Tests
 {
@@ -21,7 +21,7 @@ public class GetAllPromotionsV2Tests
     }
 
     /// <summary>
-    /// Tests the <see cref="GetAllsPromotionsV2Controller.GetAllPromotionsV2Async"/> method to ensure it returns a successful response
+    /// Tests the <see cref="GetAllPromotionsV2Controller.GetAllPromotionsV2Async"/> method to ensure it returns a successful response
     /// when valid country and language codes are provided along with a valid number of promotions.
     /// </summary>
     /// <returns>A task representing the asynchronous test operation.</returns>
@@ -29,7 +29,7 @@ public class GetAllPromotionsV2Tests
     public async Task GetAllPromotions_ShouldReturnOk_WithValidCountryCodeAndLanguageCodeEqualsES_MaxPromotionsEqualsFour_TEST()
     {
         // Take controller
-        var controller = _serviceProvider.GetService<GetAllsPromotionsV2Controller>();
+        var controller = _serviceProvider.GetService<GetAllPromotionsV2Controller>();
 
         OkObjectResult result = (OkObjectResult)await controller!.GetAllPromotionsV2Async("DE", "DE", 4, default);
         PromotionsV2Response response = (PromotionsV2Response)result.Value!;
@@ -39,7 +39,7 @@ public class GetAllPromotionsV2Tests
     }
 
     /// <summary>
-    /// Tests the <see cref="GetAllsPromotionsV2Controller.GetAllPromotionsV2Async"/> method to ensure it returns a bad request response
+    /// Tests the <see cref="GetAllPromotionsV2Controller.GetAllPromotionsV2Async"/> method to ensure it returns a bad request response
     /// when invalid country and language codes are provided along with a maximum number of promotions set to 100.
     /// </summary>
     /// <returns>A task representing the asynchronous test operation.</returns>
@@ -47,7 +47,7 @@ public class GetAllPromotionsV2Tests
     public async Task GetAllPromotions_ShouldReturnBadRequest_WithInvalidCountryAndLanguagueCodeAnd_MaxPromotions_Equals_100_TEST()
     {
         // Take controller
-        var controller = _serviceProvider.GetService<GetAllsPromotionsV2Controller>();
+        var controller = _serviceProvider.GetService<GetAllPromotionsV2Controller>();
 
         ObjectResult result = (ObjectResult)await controller!.GetAllPromotionsV2Async("1", "1", 100, default);
         ValidationProblemDetails response = (ValidationProblemDetails)result.Value!;
@@ -65,7 +65,7 @@ public class GetAllPromotionsV2Tests
     }
 
     /// <summary>
-    /// Tests the <see cref="GetAllsPromotionsV2Controller.GetAllPromotionsV2Async"/> method to ensure it returns a bad request response
+    /// Tests the <see cref="GetAllPromotionsV2Controller.GetAllPromotionsV2Async"/> method to ensure it returns a bad request response
     /// when invalid country and language codes are provided along with a maximum number of promotions set to 0.
     /// </summary>
     /// <returns>A task representing the asynchronous test operation.</returns>
@@ -73,7 +73,7 @@ public class GetAllPromotionsV2Tests
     public async Task GetAllPromotions_ShouldReturnBadRequest_WithInvalidCountryAndLanguagueCodeAnd_MaxPromotions_Equals_0_TEST()
     {
         // Take controller
-        var controller = _serviceProvider.GetService<GetAllsPromotionsV2Controller>();
+        var controller = _serviceProvider.GetService<GetAllPromotionsV2Controller>();
 
         ObjectResult result = (ObjectResult)await controller!.GetAllPromotionsV2Async("1", "1", 0, default);
         ValidationProblemDetails response = (ValidationProblemDetails)result.Value!;
@@ -91,7 +91,7 @@ public class GetAllPromotionsV2Tests
     }
 
     /// <summary>
-    /// Tests the <see cref="GetAllsPromotionsV2Controller.GetAllPromotionsV2Async"/> method to ensure it returns a bad request response
+    /// Tests the <see cref="GetAllPromotionsV2Controller.GetAllPromotionsV2Async"/> method to ensure it returns a bad request response
     /// when a valid country and language code are provided but the maximum number of promotions is set to 100, which exceeds the allowed limit.
     /// </summary>
     /// <returns>A task representing the asynchronous test operation.</returns>
@@ -99,7 +99,7 @@ public class GetAllPromotionsV2Tests
     public async Task GetAllPromotions_ShouldReturnBadRequest_WithInvalid_MaxPromotions_Equals_100_TEST()
     {
         // Take controller
-        var controller = _serviceProvider.GetService<GetAllsPromotionsV2Controller>();
+        var controller = _serviceProvider.GetService<GetAllPromotionsV2Controller>();
 
         ObjectResult result = (ObjectResult)await controller!.GetAllPromotionsV2Async("ES", "ES", 100, default);
         ValidationProblemDetails response = (ValidationProblemDetails)result.Value!;
@@ -111,7 +111,7 @@ public class GetAllPromotionsV2Tests
     }
 
     /// <summary>
-    /// Tests the <see cref="GetAllsPromotionsV2Controller.GetAllPromotionsV2Async"/> method to ensure it returns a bad request response
+    /// Tests the <see cref="GetAllPromotionsV2Controller.GetAllPromotionsV2Async"/> method to ensure it returns a bad request response
     /// when a valid country and language code are provided but the maximum number of promotions is set to 0, which is below the allowed minimum.
     /// </summary>
     /// <returns>A task representing the asynchronous test operation.</returns>
@@ -119,7 +119,7 @@ public class GetAllPromotionsV2Tests
     public async Task GetAllPromotions_ShouldReturnBadRequest_WithInvalid_MaxPromotions_Equals_0_TEST()
     {
         // Take controller
-        var controller = _serviceProvider.GetService<GetAllsPromotionsV2Controller>();
+        var controller = _serviceProvider.GetService<GetAllPromotionsV2Controller>();
 
         ObjectResult result = (ObjectResult)await controller!.GetAllPromotionsV2Async("ES", "ES", 0, default);
         ValidationProblemDetails response = (ValidationProblemDetails)result.Value!;
@@ -131,7 +131,7 @@ public class GetAllPromotionsV2Tests
     }
 
     /// <summary>
-    /// Tests the <see cref="GetAllsPromotionsV2Controller.GetAllPromotionsV2Async"/> method to ensure it returns a bad request response
+    /// Tests the <see cref="GetAllPromotionsV2Controller.GetAllPromotionsV2Async"/> method to ensure it returns a bad request response
     /// when a valid country code is provided but an invalid language code with a value of "1" is provided.
     /// </summary>
     /// <returns>A task representing the asynchronous test operation.</returns>
@@ -139,7 +139,7 @@ public class GetAllPromotionsV2Tests
     public async Task GetAllPromotions_ShouldReturnBadRequest_WithInvalid_LanguageCode_Equals_1_TEST()
     {
         // Take controller
-        var controller = _serviceProvider.GetService<GetAllsPromotionsV2Controller>();
+        var controller = _serviceProvider.GetService<GetAllPromotionsV2Controller>();
 
         ObjectResult result = (ObjectResult)await controller!.GetAllPromotionsV2Async("ES", "1", 10, default);
         ValidationProblemDetails response = (ValidationProblemDetails)result.Value!;

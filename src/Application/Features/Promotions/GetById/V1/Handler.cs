@@ -14,19 +14,19 @@ namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 /// It uses an <see cref="IMapper"/> for mapping data and an <see cref="IPromotionsRepository"/>
 /// for data retrieval. Logging is done via <see cref="ILogger{T}"/>.
 /// </remarks>
-internal sealed class GetByIdV1Handler : IHandler<PromotionByIdV1Request, PromotionByIdV1Response>
+internal sealed class GetPromotionByIdV1Handler : IHandler<PromotionByIdV1Request, PromotionByIdV1Response>
 {
     private readonly IMapper _mapper;
-    private readonly ILogger<GetByIdV1Handler> _logger;
+    private readonly ILogger<GetPromotionByIdV1Handler> _logger;
     private readonly IPromotionsRepository _repository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GetByIdV1Handler"/> class.
+    /// Initializes a new instance of the <see cref="GetPromotionByIdV1Handler"/> class.
     /// </summary>
     /// <param name="mapper">The mapper to convert data objects to response models.</param>
     /// <param name="logger">The logger to record information and errors.</param>
     /// <param name="repository">The repository to access promotion data.</param>
-    public GetByIdV1Handler(IMapper mapper, ILogger<GetByIdV1Handler> logger, IPromotionsRepository repository)
+    public GetPromotionByIdV1Handler(IMapper mapper, ILogger<GetPromotionByIdV1Handler> logger, IPromotionsRepository repository)
     {
         _mapper = mapper;
         _logger = logger;

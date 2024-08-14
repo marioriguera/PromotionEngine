@@ -3,11 +3,11 @@
 namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 
 /// <summary>
-/// Contains unit tests for the <see cref="GetAllsPromotionsV1Controller"/> to verify its functionality.
+/// Contains unit tests for the <see cref="GetAllPromotionsV1Controller"/> to verify its functionality.
 /// </summary>
 /// <remarks>
 /// This class sets up a test environment by retrieving the service provider from a singleton instance of <see cref="ServicesRegisterToTests"/>.
-/// It includes tests to validate the behavior of the <see cref="GetAllsPromotionsV1Controller"/> controller.
+/// It includes tests to validate the behavior of the <see cref="GetAllPromotionsV1Controller"/> controller.
 /// </remarks>
 public class GetAllPromotionsV1Tests
 {
@@ -23,7 +23,7 @@ public class GetAllPromotionsV1Tests
     }
 
     /// <summary>
-    /// Tests the <see cref="GetAllsPromotionsV1Controller.GetAllPromotionsAsync"/> method to ensure it returns a successful response
+    /// Tests the <see cref="GetAllPromotionsV1Controller.GetAllPromotionsAsync"/> method to ensure it returns a successful response
     /// when valid country and language codes are provided.
     /// </summary>
     /// <returns>A task representing the asynchronous test operation.</returns>
@@ -31,7 +31,7 @@ public class GetAllPromotionsV1Tests
     public async Task GetAllPromotions_ShouldReturnOk_WithValidCountryCodeAndLanguageCodeEqualsES_TEST()
     {
         // Take controller
-        var controller = _serviceProvider.GetService<GetAllsPromotionsV1Controller>();
+        var controller = _serviceProvider.GetService<GetAllPromotionsV1Controller>();
 
         OkObjectResult result = (OkObjectResult)await controller!.GetAllPromotionsAsync("ES", "ES", default);
         PromotionsV1Response response = (PromotionsV1Response)result.Value!;
@@ -41,7 +41,7 @@ public class GetAllPromotionsV1Tests
     }
 
     /// <summary>
-    /// Tests the <see cref="GetAllsPromotionsV1Controller.GetAllPromotionsAsync"/> method to ensure it returns a successful response
+    /// Tests the <see cref="GetAllPromotionsV1Controller.GetAllPromotionsAsync"/> method to ensure it returns a successful response
     /// when valid country and language codes are provided.
     /// </summary>
     /// <returns>A task representing the asynchronous test operation.</returns>
@@ -49,7 +49,7 @@ public class GetAllPromotionsV1Tests
     public async Task GetAllPromotions_ShouldReturnOk_WithValidCountryCodeAndLanguageCodeEqualsDE_TEST()
     {
         // Take controller
-        var controller = _serviceProvider.GetService<GetAllsPromotionsV1Controller>();
+        var controller = _serviceProvider.GetService<GetAllPromotionsV1Controller>();
 
         OkObjectResult result = (OkObjectResult)await controller!.GetAllPromotionsAsync("DE", "DE", default);
         PromotionsV1Response response = (PromotionsV1Response)result.Value!;
@@ -59,7 +59,7 @@ public class GetAllPromotionsV1Tests
     }
 
     /// <summary>
-    /// Tests the <see cref="GetAllsPromotionsV1Controller.GetAllPromotionsAsync"/> method to ensure it returns a bad request response
+    /// Tests the <see cref="GetAllPromotionsV1Controller.GetAllPromotionsAsync"/> method to ensure it returns a bad request response
     /// when invalid country and language codes are provided.
     /// </summary>
     /// <returns>A task representing the asynchronous test operation.</returns>
@@ -67,7 +67,7 @@ public class GetAllPromotionsV1Tests
     public async Task GetAllPromotions_ShouldReturnBadRequest_WithNonValidCountryCodeAndLanguageCodeEqualsOne_TEST()
     {
         // Take controller
-        var controller = _serviceProvider.GetService<GetAllsPromotionsV1Controller>();
+        var controller = _serviceProvider.GetService<GetAllPromotionsV1Controller>();
 
         ObjectResult result = (ObjectResult)await controller!.GetAllPromotionsAsync("1", "1", default);
         ValidationProblemDetails response = (ValidationProblemDetails)result.Value!;

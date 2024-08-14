@@ -14,21 +14,21 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V1;
 [ApiVersion(1.0)]
 [Route("api/v{v:apiVersion}/promotions")]
 [ControllerName("Get alls promotions.")]
-public class GetAllsPromotionsV1Controller : FeatureControllerBase
+public class GetAllPromotionsV1Controller : FeatureControllerBase
 {
     private readonly IHandler<PromotionsV1Request, PromotionsV1Response>? _handler;
     private readonly IValidator<PromotionsV1Request> _validator;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GetAllsPromotionsV1Controller"/> class.
+    /// Initializes a new instance of the <see cref="GetAllPromotionsV1Controller"/> class.
     /// </summary>
     /// <param name="handler">The handler for processing <see cref="PromotionsV1Request"/> and returning <see cref="PromotionsV1Response"/>.</param>
     /// <param name="validator">The validator for <see cref="PromotionByIdV1Model"/>.</param>
     /// <param name="logger">The logger instance for logging messages.</param>
-    public GetAllsPromotionsV1Controller(
+    public GetAllPromotionsV1Controller(
         IHandler<PromotionsV1Request, PromotionsV1Response> handler,
         IValidator<PromotionsV1Request> validator,
-        ILogger<GetAllsPromotionsV1Controller> logger)
+        ILogger<GetAllPromotionsV1Controller> logger)
         : base(logger)
     {
         _handler = handler;

@@ -8,19 +8,19 @@ namespace PromotionEngine.Application.Features.Promotions.GetAll.V2;
 /// <summary>
 /// Handler for processing version 2 promotion requests.
 /// </summary>
-internal sealed class PromotionsV2Handler : IHandler<PromotionsV2Request, PromotionsV2Response>
+internal sealed class GetAllPromotionsV2Handler : IHandler<PromotionsV2Request, PromotionsV2Response>
 {
     private readonly IMapper _mapper;
-    private readonly ILogger<PromotionsV2Handler> _logger;
+    private readonly ILogger<GetAllPromotionsV2Handler> _logger;
     private readonly IPromotionsRepository _repository;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PromotionsV2Handler"/> class.
+    /// Initializes a new instance of the <see cref="GetAllPromotionsV2Handler"/> class.
     /// </summary>
     /// <param name="mapper">The mapper to convert between domain models and response models.</param>
     /// <param name="logger">The logger for logging information and errors.</param>
     /// <param name="repository">The repository to access promotion data.</param>
-    public PromotionsV2Handler(IMapper mapper, ILogger<PromotionsV2Handler> logger, IPromotionsRepository repository)
+    public GetAllPromotionsV2Handler(IMapper mapper, ILogger<GetAllPromotionsV2Handler> logger, IPromotionsRepository repository)
     {
         _mapper = mapper;
         _logger = logger;
