@@ -29,7 +29,7 @@ internal static class ServiceCollectionExtension
     {
         services.AddSingleton<GetAllsPromotionsV1Controller>();
         services.AddSingleton<GetAllsPromotionsV2Controller>();
-        services.AddSingleton<GetPromotionsByIdV1Controller>();
+        services.AddSingleton<GetPromotionByIdV1Controller>();
         return services;
     }
 }

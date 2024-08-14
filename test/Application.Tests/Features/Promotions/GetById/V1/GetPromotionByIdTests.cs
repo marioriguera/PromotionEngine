@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 
 /// <summary>
-/// Contains unit tests for the <see cref="GetPromotionsByIdV1Controller"/>.
+/// Contains unit tests for the <see cref="GetPromotionByIdV1Controller"/>.
 /// </summary>
 public class GetPromotionByIdV1Tests
 {
@@ -20,14 +20,14 @@ public class GetPromotionByIdV1Tests
     }
 
     /// <summary>
-    /// Tests the <see cref="GetPromotionsByIdV1Controller.GetPromotionByIdAsync"/> method to ensure it returns a successful response
+    /// Tests the <see cref="GetPromotionByIdV1Controller.GetPromotionByIdAsync"/> method to ensure it returns a successful response
     /// when a valid promotion ID is provided.
     /// </summary>
     [Fact]
     public async Task GetPromotion_ShouldReturnOk_WithValid_PromotionId_TEST()
     {
         // Take controller
-        var controller = _serviceProvider.GetService<GetPromotionsByIdV1Controller>();
+        var controller = _serviceProvider.GetService<GetPromotionByIdV1Controller>();
 
         OkObjectResult result = (OkObjectResult)await controller!.GetPromotionByIdAsync(new Guid("684d2064-916f-41bb-8ff9-23c83c7f9282"), default);
         PromotionByIdV1Response response = (PromotionByIdV1Response)result.Value!;
@@ -49,14 +49,14 @@ public class GetPromotionByIdV1Tests
     }
 
     /// <summary>
-    /// Tests the <see cref="GetPromotionsByIdV1Controller.GetPromotionByIdAsync"/> method to ensure it throws a <see cref="System.FormatException"/>
+    /// Tests the <see cref="GetPromotionByIdV1Controller.GetPromotionByIdAsync"/> method to ensure it throws a <see cref="System.FormatException"/>
     /// when no promotion ID is provided.
     /// </summary>
     [Fact]
     public async Task GetPromotion_ShouldBadRequest_WithOut_PromotionId_TEST()
     {
         // Take controller
-        var controller = _serviceProvider.GetService<GetPromotionsByIdV1Controller>();
+        var controller = _serviceProvider.GetService<GetPromotionByIdV1Controller>();
 
         await Assert.ThrowsAsync<System.FormatException>(async () =>
         {
@@ -65,14 +65,14 @@ public class GetPromotionByIdV1Tests
     }
 
     /// <summary>
-    /// Tests the <see cref="GetPromotionsByIdV1Controller.GetPromotionByIdAsync"/> method to ensure it returns a validation error
+    /// Tests the <see cref="GetPromotionByIdV1Controller.GetPromotionByIdAsync"/> method to ensure it returns a validation error
     /// when the initial GUID is used as the promotion ID.
     /// </summary>
     [Fact]
     public async Task GetPromotion_ShouldBadRequest_With_initial_PromotionId_TEST()
     {
         // Take controller
-        var controller = _serviceProvider.GetService<GetPromotionsByIdV1Controller>();
+        var controller = _serviceProvider.GetService<GetPromotionByIdV1Controller>();
 
         ObjectResult result = (ObjectResult)await controller!.GetPromotionByIdAsync(new Guid("00000000-0000-0000-0000-000000000000"), default);
         ValidationProblemDetails response = (ValidationProblemDetails)result.Value!;

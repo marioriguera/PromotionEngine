@@ -15,21 +15,21 @@ namespace PromotionEngine.Application.Features.Promotions.GetById.V1;
 [ApiVersion(1.0)]
 [Route("api/v{v:apiVersion}/promotions")]
 [ControllerName("Get promotion by id.")]
-public class GetPromotionsByIdV1Controller : FeatureControllerBase
+public class GetPromotionByIdV1Controller : FeatureControllerBase
 {
     private readonly IHandler<PromotionByIdV1Request, PromotionByIdV1Response> _handler;
     private readonly IValidator<PromotionByIdV1Request> _validator;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GetPromotionsByIdV1Controller"/> class.
+    /// Initializes a new instance of the <see cref="GetPromotionByIdV1Controller"/> class.
     /// </summary>
     /// <param name="handler">The handler to process promotion requests.</param>
     /// <param name="validator">The validator for <see cref="PromotionByIdV1Request"/>.</param>
     /// <param name="logger">The logger instance for logging.</param>
-    public GetPromotionsByIdV1Controller(
+    public GetPromotionByIdV1Controller(
         IHandler<PromotionByIdV1Request, PromotionByIdV1Response> handler,
         IValidator<PromotionByIdV1Request> validator,
-        ILogger<GetPromotionsByIdV1Controller> logger)
+        ILogger<GetPromotionByIdV1Controller> logger)
         : base(logger)
     {
         _handler = handler;
